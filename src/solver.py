@@ -2,6 +2,8 @@ from src.setup_logger import logger
 from swiplserver import PrologMQI
 import io
 import logging
+import tempfile
+import os
 
 
 class Solver:
@@ -9,25 +11,27 @@ class Solver:
 	Solver class for managing interactions with a solver.
 	"""
 
-	def __init__(self, solver_path):
+	def __init__(self, solver_string: str, game_string: str):
 		"""
 		Initialize the Solver with the path to the Prolog solver.
 
 		Args:
-			solver_path (str): Solver path.
+			solver_string (str): Domain-independent solver.
+			game_string (str): Domain-dependent solver.
 		"""
-		# Store the path to the Prolog solver
-		self.solver = solver_path
+		# Create prolog thread to query the solver
+		self.valid = False
+		self.prolog_thread = PrologMQI().create_thread()
+		self.consult_and_validate(solver_string, game_string)
 
-	def validate(self, game_axioms_file) -> tuple:
+	def consult_and_validate(self, solver_string: str, game_string: str, predicates=("select/4","update_last_move/2")):
 		"""
-		Execute queries using the provided game axioms path
+		Consult domain-dependent and domain-independent solvers, and determine syntactic correctness.
 
 		Args:
-			game_axioms_file: path to the file with an LLM's output
-
-		Returns:
-			tuple: bool saying if program correct, error trace.
+			solver_string (str): Domain-independent solver path.
+			game_string (str): Domain-dependent solver path.
+			predicates (tuple): Tuple of predicates that need to be contained in the solver.
 		"""
 		log_capture_string = io.StringIO()
 		ch = logging.StreamHandler(log_capture_string)
@@ -35,23 +39,37 @@ class Solver:
 		logging.getLogger('swiplserver').addHandler(ch)
 
 		correct = True
-		trace = ""
-		with PrologMQI() as mqi:
-			with mqi.create_thread() as prolog_thread:
-				try:
-					# Load the Prolog solver
-					result = prolog_thread.query("consult(\"" + self.solver + "\").")
-					logger.debug("Solver loaded: " + str(result))
+		# List of Prolog data to be written to files
+		prolog_data = [("solver", solver_string), ("game", game_string)]
+		temp_files = []
 
-					# Load game specification created by LLM
-					query = f"consult(\"OUTPUT/axioms/{game_axioms_file}\")."
-					result = prolog_thread.query(query)
-					logger.debug("Solver loaded: " + str(result))
-					logger.debug(" " + str(result) + "\n")
-				except Exception as e:
+		try:
+			# Write the Prolog data to temporary files
+			for name, data in prolog_data:
+				with tempfile.NamedTemporaryFile(delete=False, dir="DATA/TEMP", suffix=".pl") as temp_file:
+					temp_file.write(data.encode())  # Write data to file
+					temp_files.append(temp_file.name)  # Store the file path
+
+			# Load each Prolog file in the Prolog solver
+			for temp_file_path, data in zip(temp_files, prolog_data):
+				result = self.prolog_thread.query(f'consult(\"{temp_file_path}\").')
+				logger.debug(f"Prolog file {data[0]} consulted: {result}")
+				if os.path.exists(temp_file_path):
+					os.remove(temp_file_path)
+
+			for predicate in predicates:
+				check_predicate_query = f"current_predicate({predicate})."
+				result = self.prolog_thread.query(check_predicate_query)
+
+				if not result:
 					correct = False
-					trace = str(e)
-					logger.error(f"Prolog error trace: {trace}")
+					logger.debug(f"The predicate {predicate} does not exist.")
+					break
+
+		except Exception as e:
+			correct = False
+			trace = str(e)
+			logger.error(f"Prolog error trace: {trace}")
 
 		log_contents = log_capture_string.getvalue()
 		if log_contents and correct:  # If there's a log message, and we haven't caught an exception
@@ -62,4 +80,51 @@ class Solver:
 		# Remove the custom log handler
 		logging.getLogger('swiplserver').removeHandler(ch)
 
-		return correct, trace
+		self.valid = correct
+
+	def get_variable_value(self, predicate: str) -> str:
+		"""
+		Takes a string representing a predicate and returns the value from the solver.
+
+		Args:
+			predicate (str): The predicate to evaluate.
+
+		Returns:
+			The evaluated value of the variable.
+
+		Raises:
+			ValueError: If the predicate evaluation fails.
+		"""
+		try:
+			final_result = None
+			# logger.debug("query:" + predicate)
+			self.prolog_thread.query_async(predicate, find_all=False)
+
+			while True:
+				result = self.prolog_thread.query_async_result()
+				if result is None:
+					break
+				else:
+					logger.debug("result:" + str(result) + "\n")
+					final_result = next(iter(result[0].values()))
+			return final_result
+		except ValueError as e:
+			logger.debug(f"Error: {e}")
+			return None
+
+	def apply_predicate(self, predicate: str):
+		"""
+		Takes a string representing a predicate, evaluates it to update the solver's internal state,
+		but does not return any value.
+
+		Args:
+			predicate (str): The predicate to evaluate and apply to the solver.
+
+		Raises:
+			ValueError: If the predicate evaluation or execution fails.
+		"""
+		try:
+			result = self.prolog_thread.query(predicate)
+			logger.debug(f"Applied {predicate}: "+result)
+		except Exception as e:
+			raise ValueError(f"Failed to apply the predicate: {e}")

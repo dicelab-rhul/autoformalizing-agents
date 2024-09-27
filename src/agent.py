@@ -1,4 +1,6 @@
-from utils import generate_agent_name
+from src.utils import generate_agent_name, read_file
+from src.solver import Solver
+from src.setup_logger import logger
 
 
 class Agent:
@@ -9,7 +11,7 @@ class Agent:
 	It also keeps track of its payoffs, choices, and opponent's choices.
 	"""
 
-	def __init__(self, game=None, strategy="tit-for-tat"):
+	def __init__(self, game_string, strategy="tit-for-tat"):
 		"""
 		Initializes the Agent with a random name, an empty payoff list, choice list, and opponent's choice list.
 		"""
@@ -17,32 +19,39 @@ class Agent:
 		self.payoffs = []  # List to store the agent's payoffs over time
 		self.choices = []  # List to store the agent's choices
 		self.opponent_choices = []  # List to store the opponent's choices
-		self.game = game
+		# self.game = game_string
 		self.strategy = strategy
-		#TODO add solver object
+		self.game = game_string
+		self.solver = None
+		self.valid = self.init(game_string)
 
-	def init(self):
+	def init(self, game_string: str):
 		"""
 		Initializes the agent with the game.
 
 		:return: syntactic correctness
 		"""
-		print(f"Agent {self.name} with strategy {self.strategy} is initializing.")
-		#TODO autoformalise
-		return self.verify()
-
-	def verify(self):
-		#TODO
-		return True
+		logger.debug(f"Agent {self.name} with strategy {self.strategy} is initializing.")
+		self.game = game_string  # TODO autoformalise game description here
+		solver_string = read_file("src/solver.pl")
+		if self.game and solver_string:
+			self.solver = Solver(solver_string, self.game)
+			return self.solver.valid
+		return False
 
 	def play(self):
 		"""
-		Simulates the agent making a choice in the tournament.
+		The agent making a choice in the tournament.
 		"""
+		if self.solver:
+			choice = self.solver.get_variable_value("select(p1,_,s0,M).")
+			if choice:
+				self.choices.append(choice)
+				logger.debug(f"Agent {self.name} made choice: {choice}")
+				return choice
 
-		choice = None  # TODO get choice
-		self.choices.append(choice)
-		print(f"Agent {self.name} made choice: {choice}")
+		logger.debug(f"Agent {self.name} is not valid!")
+		return None
 
 	def update(self, opponent_choice):
 		"""
@@ -50,10 +59,16 @@ class Agent:
 
 		:param opponent_choice: The choice made by the opponent in the current round.
 		"""
-		self.opponent_choices.append(opponent_choice)
-		payoff = 0 #  TODO calculate payoff
-		self.payoffs.append(payoff)
-		print(f"Agent {self.name} received payoff: {payoff} and logged opponent's choice: {opponent_choice}")
+		if self.solver:
+			self.opponent_choices.append(opponent_choice)
+			payoff = float(self.solver.get_variable_value(
+				f"finally(goal(p1, U), do(choice(p1, '{self.choices[-1]}'), do(choice(p2, '{self.opponent_choices[-1]}'), s0)))."))
+			self.payoffs.append(payoff)
+			logger.debug(f"Agent {self.name} received payoff: {payoff} and logged opponent's choice: {opponent_choice}")
+			return True
+		else:
+			logger.debug(f"Agent {self.name} is not valid!")
+			return False
 
 	def get_payoffs(self):
 		"""

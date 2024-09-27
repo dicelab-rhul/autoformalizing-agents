@@ -2,6 +2,7 @@ import os
 import random
 import re
 
+
 def generate_syllable():
 	"""
 	Generates a random syllable consisting of a consonant followed by a vowel.
@@ -49,3 +50,16 @@ def parse_axioms(response, game_axioms_filename):
 		f_out.write(game_axioms)
 
 	return game_axioms_filename
+
+
+def read_file(filename):
+	try:
+		with open(filename) as f:
+			s = f.read()
+			return s
+	except FileNotFoundError:
+		print(f"The file {filename} was not found.")
+		return None
+	except IOError:
+		print("An error occurred while reading the file.")
+		return None

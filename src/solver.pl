@@ -1,3 +1,5 @@
+:- dynamic initially/2.
+
 % All legal evolutions of a game: can be used both as a generator and test.
 game(F,F):- final(F).  
 game(S,F):- \+ final(S), legal(M,S), game(do(M,S),F).
