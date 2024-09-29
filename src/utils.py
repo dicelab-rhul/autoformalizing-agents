@@ -30,26 +30,23 @@ def generate_agent_name(num_syllables=2):
 	return name.capitalize()  # Capitalize the first letter of the name
 
 
-def parse_axioms(response, game_axioms_filename):
+def parse_axioms(response):
 	"""
 	Parses game axioms from the given response and saves them to a .pl file.
 
 	Args:
 		response (str): The response containing the game axioms to be parsed.
-		game_axioms_filename (str): name of the file to which the axioms will be saved
 
 	Returns:
-		str: The filename of the saved .pl file containing the game axioms.
+		str: String containing the game axioms.
 	"""
 	pattern = r'(?m)^@([^@]+)@'
 	match = re.search(pattern, response)
-	assert match is not None
+	if match is None:
+		raise ValueError(f"No match found for pattern: {pattern}")
 	game_axioms = match.group(1)
 
-	with open(os.path.join('OUTPUT', 'axioms', game_axioms_filename), 'w') as f_out:
-		f_out.write(game_axioms)
-
-	return game_axioms_filename
+	return game_axioms
 
 
 def read_file(filename):

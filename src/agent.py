@@ -1,6 +1,8 @@
 from src.utils import generate_agent_name, read_file
 from src.solver import Solver
 from src.setup_logger import logger
+from src.utils import read_file, parse_axioms
+from llms.gpt4 import GPT4
 
 
 class Agent:
@@ -11,7 +13,7 @@ class Agent:
 	It also keeps track of its payoffs, choices, and opponent's choices.
 	"""
 
-	def __init__(self, game_string, strategy="tit-for-tat"):
+	def __init__(self, game_string, strategy="tit-for-tat", solver_path="src/solver.pl", prompt_path="DATA/PROMPTS/prompt_template.txt"):
 		"""
 		Initializes the Agent with a random name, an empty payoff list, choice list, and opponent's choice list.
 		"""
@@ -19,10 +21,12 @@ class Agent:
 		self.payoffs = []  # List to store the agent's payoffs over time
 		self.choices = []  # List to store the agent's choices
 		self.opponent_choices = []  # List to store the opponent's choices
-		# self.game = game_string
-		self.strategy = strategy
-		self.game = game_string
-		self.solver = None
+		self.game = None  # Autoformalised game-dependent axioms
+		self.strategy = strategy  # Strategy, not supported yet
+		self.solver_path = solver_path  # Path to domain-independent solver
+		self.prompt_path = prompt_path  # Path to prompt template
+		self.solver = None  # Solver object
+		self.llm = GPT4()
 		self.valid = self.init(game_string)
 
 	def init(self, game_string: str):
@@ -32,10 +36,21 @@ class Agent:
 		:return: syntactic correctness
 		"""
 		logger.debug(f"Agent {self.name} with strategy {self.strategy} is initializing.")
-		self.game = game_string  # TODO autoformalise game description here
-		solver_string = read_file("src/solver.pl")
+		prompt = read_file(self.prompt_path)
+		prompt = prompt.replace('{game_description}', game_string)
+		response = self.llm.prompt(prompt)
+
+		try:
+			self.game = parse_axioms(response)
+		except ValueError:
+			# TODO instruction following error ('@' not added)
+			logger.debug(f"Agent {self.name} experienced instruction following error!")
+			return False
+
+		solver_string = read_file(self.solver_path)
 		if self.game and solver_string:
 			self.solver = Solver(solver_string, self.game)
+			# TODO if not valid syntactic error
 			return self.solver.valid
 		return False
 
@@ -51,6 +66,7 @@ class Agent:
 				return choice
 
 		logger.debug(f"Agent {self.name} is not valid!")
+		# TODO runtime error
 		return None
 
 	def update(self, opponent_choice):
@@ -68,6 +84,7 @@ class Agent:
 			return True
 		else:
 			logger.debug(f"Agent {self.name} is not valid!")
+			# TODO runtime error
 			return False
 
 	def get_payoffs(self):

@@ -1,3 +1,22 @@
+The following is a Prolog program that can be used to generate and test all legal evolutions of a game represented in the situation calculus:
+
+% All legal evolutions of a game: can be used both as a generator and test.
+game(F,F):- final(F).
+game(S,F):- \+ final(S), legal(M,S), game(do(M,S),F).
+
+The domain independent version of the situation calculus is as follows:
+
+% Situation Calculus - our formulation for games.
+holds(F, S):- initially(F, S).
+holds(F, do(M, S)):- effect(F, M, S).
+holds(F, do(A, S)):- holds(F, S), \+ abnormal(F, A, S).
+
+The prisoner's dilemma game, having the following verbal description:
+
+"You play a game with an anonymous player in which you simultaneously make a choice. Your payoff depends on both choices. If you both pick C, you each get 3$. If you choose C while they choose D, you get 1$, and they get 4$. Similarly, if you pick D while they pick C, you get 4$, and they get 1$. If you both pick D, you each earn 2$. The game has only one round."
+
+can be specified as follows:
+
 /* Game specific predicates for Prisoner's Dilemma (PD) */
 
 % Payoff matrix for PD
@@ -41,16 +60,26 @@ finally(outcome(P1,M1,U1,P2,M2,U2), S):-
 finally(goal(P1, U1), S):-
     finally(outcome(P1,_,U1,_,_,_), S).
 finally(goal(P2, U2), S):-
-    finally(outcome(_,_,_,P2,_,U2), S).    
-    
+    finally(outcome(_,_,_,P2,_,U2), S).
+
 select(P, O, S, M):-
     \+ holds(last_move(O, _LMo), S),
     holds(default_move(P, M), S).
 select(_P, O, S, Mo):-
     holds(last_move(O, Mo), S).
-    
+
 update_last_move(P, M):-
     retract(initially(last_move(P, _), s0)),!,
     assert(initially(last_move(P, M), s0)).
 update_last_move(P, M):-
     assert(initially(last_move(P, M), s0)).
+
+The verbal description of another game is as follows:
+
+{game_description}
+
+Produce set of domain specific axioms for the game. Use 'D' and 'C' to represent choices, as in the provided example. Use numerical payoffs. Write code compatible with SWI Prolog. If the clauses of a specified predicate are not together in the source file, use the discontiguous declaration of SWI:
+
+:- discontiguous p/3.
+
+ at the beginning of the file. Mark the beginning and end of the code with a '@'.
