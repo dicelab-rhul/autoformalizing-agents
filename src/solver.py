@@ -52,6 +52,7 @@ class Solver:
 
 			# Load each Prolog file in the Prolog solver
 			for temp_file_path, data in zip(temp_files, prolog_data):
+				temp_file_path = temp_file_path.replace(os.sep, '/')
 				result = self.prolog_thread.query(f'consult(\"{temp_file_path}\").')
 				logger.debug(f"Prolog file {data[0]} consulted: {result}")
 				if os.path.exists(temp_file_path):
