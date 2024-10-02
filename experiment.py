@@ -18,6 +18,7 @@ def main():
 		os.makedirs(OUT_DIR)
 	solver_path = os.path.normpath(config.get("Paths", "SOLVER_PATH"))
 	template_path = os.path.normpath(config.get("Paths", "TEMPLATE_PATH"))
+	strategy = os.path.normpath(config.get("Paths", "STRATEGY"))
 
 	num_agents = config.getint("Params", "num_agents")
 	num_rounds = config.getint("Params", "num_rounds")
@@ -31,7 +32,7 @@ def main():
 	for game_desc in game_descriptions:
 		# Create and play tournament
 		tournament = Tournament(game_desc, target_payoffs=target_payoffs, num_agents=num_agents, max_attempts=max_attempts,
-								num_rounds=num_rounds, solver_path=solver_path, prompt_path=template_path)
+								num_rounds=num_rounds, strategies=[strategy]*num_agents, solver_path=solver_path, prompt_path=template_path)
 		tournament.create_agents()
 		tournament.play_tournament()
 		winners = tournament.get_winners()
@@ -45,7 +46,7 @@ def main():
 		# Print winners
 		print("Winners are:")
 		for winner in winners:
-			print(f"Agent {winner.name} with strategy {winner.strategy} and payoff {winner.get_total_payoff()}")
+			print(f"Agent {winner.name} with strategy {winner.strategy_name} and payoff {winner.get_total_payoff()}")
 
 
 if __name__ == "__main__":

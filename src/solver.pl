@@ -11,3 +11,10 @@ game(S,F):- \+ final(S), legal(M,S), game(do(M,S),F).
 holds(F, S):- initially(F, S).
 holds(F, do(M, S)):- effect(F, M, S).
 holds(F, do(A, S)):- holds(F, S), \+ abnormal(F, A, S).
+
+% (Re)initialise the state
+initialise(Target, State):-
+    Target =.. [Pred, Id, _],
+    Current =.. [Pred, Id, _],
+    (initially(Current, State) -> retract(initially(Current, State)); true),
+    assert(initially(Target, State)).

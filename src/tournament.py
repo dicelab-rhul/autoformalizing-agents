@@ -1,4 +1,6 @@
 import itertools
+import os.path
+
 from src.agent import Agent
 from src.setup_logger import logger
 
@@ -28,7 +30,7 @@ class Tournament:
 		self.num_agents = num_agents
 		self.max_attempts = max_attempts
 		self.num_rounds = num_rounds
-		self.default_strategy = "tit-for-tat"  # different strategies not supported yet
+		self.default_strategy = os.path.normpath("DATA/STRATEGIES/tit-for-tat.pl")
 		self.solver_path = solver_path  # Path to domain-independent solver
 		self.prompt_path = prompt_path  # Path to prompt template
 		self.strategies = strategies if strategies else None

@@ -11,26 +11,28 @@ class Solver:
 	Solver class for managing interactions with a solver.
 	"""
 
-	def __init__(self, solver_string: str, game_string: str):
+	def __init__(self, solver_string: str, game_string: str, strategy: str):
 		"""
 		Initialize the Solver with the path to the Prolog solver.
 
 		Args:
 			solver_string (str): Domain-independent solver.
 			game_string (str): Domain-dependent solver.
+			strategy (str): Strategy.
 		"""
 		# Create prolog thread to query the solver
 		self.valid = False
 		self.prolog_thread = PrologMQI().create_thread()
-		self.consult_and_validate(solver_string, game_string)
+		self.consult_and_validate(solver_string, game_string, strategy)
 
-	def consult_and_validate(self, solver_string: str, game_string: str, predicates=("select/4","update_last_move/2")):
+	def consult_and_validate(self, solver_string: str, game_string: str, strategy: str, predicates=("select/4", "initialise/2")):
 		"""
 		Consult domain-dependent and domain-independent solvers, and determine syntactic correctness.
 
 		Args:
 			solver_string (str): Domain-independent solver path.
 			game_string (str): Domain-dependent solver path.
+			strategy (str): Strategy.
 			predicates (tuple): Tuple of predicates that need to be contained in the solver.
 		"""
 		log_capture_string = io.StringIO()
@@ -40,7 +42,7 @@ class Solver:
 
 		correct = True
 		# List of Prolog data to be written to files
-		prolog_data = [("solver", solver_string), ("game", game_string)]
+		prolog_data = [("solver", solver_string), ("game", game_string), ("strategy", strategy)]
 		temp_files = []
 
 		try:
@@ -107,7 +109,7 @@ class Solver:
 					break
 				else:
 					logger.debug("result:" + str(result) + "\n")
-					final_result = next(iter(result[0].values()))
+					final_result = result
 			return final_result
 		except ValueError as e:
 			logger.debug(f"Error: {e}")

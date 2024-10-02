@@ -24,10 +24,10 @@ payoff('D', 'D', 2, 2).
 payoff('C', 'D', 1, 4).
 payoff('D', 'C', 4, 1).
 payoff('C', 'C', 3, 3).
-
 % Initial state
 initial(s0).
-
+% What holds initially: who is a player, their role, and whether they can play.
+initially(player(p1), s0).
 initially(player(p2), s0).
 initially(role(p1,row), s0).
 initially(role(p2,col), s0).
@@ -61,18 +61,6 @@ finally(goal(P1, U1), S):-
     finally(outcome(P1,_,U1,_,_,_), S).
 finally(goal(P2, U2), S):-
     finally(outcome(_,_,_,P2,_,U2), S).
-
-select(P, O, S, M):-
-    \+ holds(last_move(O, _LMo), S),
-    holds(default_move(P, M), S).
-select(_P, O, S, Mo):-
-    holds(last_move(O, Mo), S).
-
-update_last_move(P, M):-
-    retract(initially(last_move(P, _), s0)),!,
-    assert(initially(last_move(P, M), s0)).
-update_last_move(P, M):-
-    assert(initially(last_move(P, M), s0)).
 
 The verbal description of another game is as follows:
 
