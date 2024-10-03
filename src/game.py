@@ -5,11 +5,11 @@ class Game:
 		Initializes the Game with a natural language description of the game and a Prolog strategy.
 
 		:param game_string: A string of natural language description of the game.
-		:param strategy: The strategy to be employed during the game (Prolog).
 		"""
 		self.game_string = game_string  # natural language description
 		self.game_rules = None  # autoformalised game rules
 		self.possible_moves = []  # Possible moves from autoformalised game rules
+		self.player_names = []
 
 	def set_possible_moves(self, moves):
 		"""
@@ -27,6 +27,23 @@ class Game:
 		:return: A list of strings representing possible moves.
 		"""
 		return self.possible_moves
+
+	def set_players(self, players):
+		"""
+		Set the list of players for the game.
+
+		:param players: A list of moves.
+		:return: None
+		"""
+		self.player_names = players
+
+	def get_players(self):
+		"""
+		Return a list of players for the game.
+
+		:return: A list of player names.
+		"""
+		return self.player_names
 
 	def set_rules(self, rules):
 		"""

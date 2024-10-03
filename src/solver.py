@@ -85,12 +85,13 @@ class Solver:
 
 		self.valid = correct
 
-	def get_variable_value(self, predicate: str) -> str:
+	def get_variable_values(self, predicate: str, count=None) -> list:
 		"""
 		Takes a string representing a predicate and returns the value from the solver.
 
 		Args:
 			predicate (str): The predicate to evaluate.
+			count (int): Number of values to return. None corresponds to full list.
 
 		Returns:
 			The evaluated value of the variable.
@@ -99,18 +100,25 @@ class Solver:
 			ValueError: If the predicate evaluation fails.
 		"""
 		try:
-			final_result = None
-			# logger.debug("query:" + predicate)
+			final_result = []
+			logger.debug("query:" + predicate)
 			self.prolog_thread.query_async(predicate, find_all=False)
 
 			while True:
 				result = self.prolog_thread.query_async_result()
 				if result is None:
 					break
+				elif result is False:
+					logger.debug("result:" + str(result) + "\n")
+					return False
 				else:
 					logger.debug("result:" + str(result) + "\n")
-					final_result = result
-			return final_result
+					final_result.append(result)
+			if len(final_result) == 0:
+				return None
+			else:
+				values = [list(result[0].values())[0] for result in final_result]
+				return values[:count or len(values)]
 		except ValueError as e:
 			logger.debug(f"Error: {e}")
 			return None
@@ -128,6 +136,7 @@ class Solver:
 		"""
 		try:
 			result = self.prolog_thread.query(predicate)
-			logger.debug(f"Applied {predicate}: "+result)
+			logger.debug(f"Applied {predicate}: " + str(result))
+			return result
 		except Exception as e:
 			raise ValueError(f"Failed to apply the predicate: {e}")

@@ -1,17 +1,18 @@
 import itertools
 import os.path
-
 from src.agent import Agent
 from src.setup_logger import logger
 
 
 class Tournament:
-	def __init__(self, game_description, num_agents=10, max_attempts=5, num_rounds=10, strategies=None, target_payoffs=None, solver_path="src/solver.pl", prompt_path="DATA/PROMPTS/prompt_template.txt"):
+	def __init__(self, game_description=None, num_agents=10, max_attempts=5, num_rounds=10, strategies=None,
+				 target_payoffs=None, solver_path="src/solver.pl", prompt_path="DATA/PROMPTS/prompt_template.txt",
+				 game_rules_path=""):
 		"""
 		Initialize a Tournament instance.
 
 		Args:
-			game_description (str): The natural language game description.
+			game_description (str): The natural language game description. If None use predefined agents.
 			num_agents (int): The number of agents in the tournament (default is 10).
 			max_attempts (int): The maximum number attempts at creating syntactically valid agent
 			strategies (list): List of strategies used by the agents (default is None).
@@ -19,7 +20,10 @@ class Tournament:
 			solver_path (str): Path to the solver.
 			prompt_path (str): Path to the prompt template.
 		"""
+		#  TODO add an option to autoformalise strategy
 		self.game_description = game_description
+		# If game description string is empty use predefined game rules
+		self.game_rules_path = game_rules_path
 		self.min_agents = 2
 		self.max_agents = 50
 		if not (self.min_agents <= num_agents <= self.max_agents):
@@ -51,7 +55,7 @@ class Tournament:
 		synt_correct = False
 		for strategy in self.strategies:
 			for i in range(self.max_attempts):
-				agent = Agent(self.game_description, strategy, self.solver_path, self.prompt_path)
+				agent = Agent(self.game_description, strategy, self.solver_path, self.prompt_path, self.game_rules_path)
 				if agent.valid:
 					self.agents.append(agent)
 					synt_correct = True

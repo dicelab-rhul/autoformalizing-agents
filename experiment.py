@@ -31,8 +31,9 @@ def main():
 
 	for game_desc in game_descriptions:
 		# Create and play tournament
-		tournament = Tournament(game_desc, target_payoffs=target_payoffs, num_agents=num_agents, max_attempts=max_attempts,
-								num_rounds=num_rounds, strategies=[strategy]*num_agents, solver_path=solver_path, prompt_path=template_path)
+		tournament = Tournament("", target_payoffs=target_payoffs, num_agents=num_agents,
+								max_attempts=max_attempts, num_rounds=num_rounds, strategies=[strategy]*num_agents,
+								solver_path=solver_path, prompt_path=template_path, game_rules_path="DATA/GAME_RULES/pd.txt")
 		tournament.create_agents()
 		tournament.play_tournament()
 		winners = tournament.get_winners()
