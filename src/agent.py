@@ -70,10 +70,16 @@ class Agent:
 			if self.solver:
 				default_move = self.solver.get_variable_values("initially(default_move(_, X), s0).", 1)
 				possible_moves = self.solver.get_variable_values("possible(choice(_,X), s0).")
-				if default_move and possible_moves:
+				player_names = self.solver.get_variable_values("holds(player(N), s0).")
+				if default_move and possible_moves and player_names:
 					self.game.set_possible_moves(set(possible_moves))
 					self.default_move = default_move[0]
-					logger.debug(f"Agent {self.name} has possible choices {self.game.get_possible_moves()} and default move {self.default_move}.")
+					self.player_name = player_names[0]
+					self.opponent_name = player_names[1]
+					self.game.set_players(player_names)
+					logger.debug(f"Agent {self.name} has possible choices {self.game.get_possible_moves()} and default"
+								 f" move {self.default_move}. The player name is {self.player_name} "
+								 f"and the opponent name is {self.opponent_name}.")
 				else:
 					return False
 			# TODO if not valid syntactic error
@@ -87,7 +93,7 @@ class Agent:
 		The agent making a choice in the tournament.
 		"""
 		if self.solver:
-			choice = self.solver.get_variable_values("select(p1,_,s0,M).", 1)
+			choice = self.solver.get_variable_values(f"select({self.player_name},_,s0,M).", 1)
 			if choice:
 				choice = choice[0]
 				self.choices.append(choice)
@@ -107,8 +113,8 @@ class Agent:
 		if self.solver:
 			self.opponent_choices.append(opponent_move)
 			payoff = self.solver.get_variable_values(
-				f"finally(goal(p1, U), do(choice(p1, '{self.choices[-1]}'), do(choice(p2, '{self.opponent_choices[-1]}'), s0))).", 1)
-			updated = self.solver.apply_predicate(f"initialise(last_move(_, '{opponent_move}'), s0).")
+				f"finally(goal({self.player_name}, U), do(choice({self.player_name}, '{self.choices[-1]}'), do(choice({self.opponent_name}, '{self.opponent_choices[-1]}'), s0))).", 1)
+			updated = self.solver.apply_predicate(f"initialise(last_move({self.opponent_name}, '{opponent_move}'), s0).")
 			if payoff and updated:
 				payoff = float(payoff[0])
 				self.payoffs.append(payoff)
