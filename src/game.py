@@ -54,4 +54,3 @@ class Game:
 		"""
 		self.game_rules = rules
 
-

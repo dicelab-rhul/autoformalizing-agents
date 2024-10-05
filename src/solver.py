@@ -25,7 +25,7 @@ class Solver:
 		self.prolog_thread = PrologMQI().create_thread()
 		self.consult_and_validate(solver_string, game_string, strategy)
 
-	def consult_and_validate(self, solver_string: str, game_string: str, strategy: str, predicates=("select/4", "initialise/2")):
+	def consult_and_validate(self, solver_string: str, game_string: str, strategy: str, predicates=("select/4", "initialise/2", "opposite_move/2")):
 		"""
 		Consult domain-dependent and domain-independent solvers, and determine syntactic correctness.
 

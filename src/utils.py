@@ -60,3 +60,8 @@ def read_file(filename):
 	except IOError:
 		print("An error occurred while reading the file.")
 		return None
+
+
+def set_normalized_path(path):
+	"""Normalizes the given path if it's a string, otherwise returns it as is."""
+	return os.path.normpath(str(path)) if isinstance(path, str) else path
