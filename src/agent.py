@@ -16,7 +16,7 @@ class Agent:
 	"""
 
 	def __init__(self, game_string=None, strategy_path="DATA/STRATEGIES/tit-for-tat.pl", solver_path="src/solver.pl",
-				 prompt_path="DATA/PROMPTS/prompt_template.txt", game_path=None, strategy_string=None):
+				 prompt_path="DATA/PROMPTS/prompt_template.txt", game_path=None, strategy_string=None, strategy_prompt_path=None):
 		"""
 		Initializes the Agent with a random name, an empty payoff list, moves list, and opponent's moves list.
 		"""
@@ -34,6 +34,7 @@ class Agent:
 			self.strategy_name = self.name+"_strategy"
 			self.strategy = strategy_string
 			self.strategy_formalise = True
+		self.strategy_prompt_path = strategy_prompt_path
 
 		self.default_move = None
 		self.player_name = None
@@ -68,15 +69,13 @@ class Agent:
 			self.game.set_rules(game_rules)
 
 		if self.strategy_formalise:
-			strategy_rules = self.autoformalise(self.prompt_path, "strategy_description", self.strategy) # TODO strategy prompt
+			strategy_rules = self.autoformalise(self.strategy_prompt_path, "strategy_description", self.strategy)
 			if strategy_rules:
 				self.strategy = strategy_rules
 			else:
 				return False
 
 		return self.load_solver()
-
-	# TODO set default move method
 
 	def load_solver(self):
 		solver_string = read_file(self.solver_path)
@@ -85,19 +84,23 @@ class Agent:
 			self.solver = Solver(solver_string, self.game.game_rules, self.strategy)
 
 			if self.solver:
-				default_move = self.solver.get_variable_values("initially(default_move(_, X), s0).", 1) # TODO default move for the player
 				possible_moves = self.solver.get_variable_values("possible(move(_,X), s0).")
 				player_names = self.solver.get_variable_values("holds(player(N), s0).")
 
-				if default_move and possible_moves and player_names:
-					self.game.set_possible_moves(set(possible_moves))
-					self.default_move = default_move[0]
+				if possible_moves and player_names:
 					self.player_name = player_names[0]
 					self.opponent_name = player_names[1]
 					self.game.set_players(player_names)
-					logger.debug(f"Agent {self.name} has possible moves {self.game.get_possible_moves()} and default"
+					self.game.set_possible_moves(set(possible_moves))
+					default_move = self.solver.get_variable_values(f"initially(default_move({self.player_name}, X), s0).",
+																   1)
+					if default_move:
+						self.default_move = default_move[0]
+						logger.debug(f"Agent {self.name} has possible moves {self.game.get_possible_moves()} and default"
 								 f" move {self.default_move}. The player name is {self.player_name} "
 								 f"and the opponent name is {self.opponent_name}.")
+					else:
+						return False
 				else:
 					return False
 			# TODO if not valid syntactic error
@@ -136,7 +139,7 @@ class Agent:
 		# TODO runtime error
 		return None
 
-	def update(self, opponent_move):
+	def update_payoff(self, opponent_move):
 		"""
 		Updates the agent's payoff and logs the opponent's move.
 

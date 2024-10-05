@@ -9,7 +9,7 @@ from src.utils import read_file, set_normalized_path
 class Tournament:
 	def __init__(self, game_description=None, num_agents=10, max_attempts=5, num_rounds=10, clones=True,
 				 target_payoffs=None, solver_path="src/solver.pl", prompt_path="DATA/PROMPTS/prompt_template.txt",
-				 strategies_path=None, game_rules_path=None, strategies_rules_path=None):
+				 strategies_path=None, game_rules_path=None, strategies_rules_path=None, strategy_prompt_path=None):
 		"""
 		Initialize a Tournament instance.
 
@@ -26,7 +26,6 @@ class Tournament:
 			game_rules_path (str): Path to formalised game rules.
 			strategies_rules_path (str): Path to formalised strategies.
 		"""
-		#  TODO add an option to autoformalise strategy
 		self.game_description = game_description
 		self.min_agents = 2
 		self.max_agents = 50
@@ -45,6 +44,7 @@ class Tournament:
 		self.game_rules_path = set_normalized_path(game_rules_path)  # Path to domain-dependent solver
 		self.strategies_path = set_normalized_path(strategies_path)  # Path to strategy natural language descriptions
 		self.strategies_rules_path = set_normalized_path(strategies_rules_path)  # Path to strategy axioms
+		self.strategy_prompt_path = strategy_prompt_path  # Path to a prompt for autoformalising strategy
 		self.target_payoffs = target_payoffs if target_payoffs else []
 		self.strategies = []
 		self.agents = []
@@ -83,7 +83,7 @@ class Tournament:
 					strategy_string = strategy
 
 				agent = Agent(self.game_description, strategy_rules, self.solver_path, self.prompt_path, self.game_rules_path,
-							  strategy_string)
+							  strategy_string, self.strategy_prompt_path)
 
 				if agent.valid:
 					self.agents.append(agent)
@@ -123,7 +123,7 @@ class Tournament:
 				if not (move_agent_1 and move_agent_2):
 					valid_pair = False
 				else:
-					updated_1, updated_2 = agent1.update(move_agent_2), agent2.update(move_agent_1)
+					updated_1, updated_2 = agent1.update_payoff(move_agent_2), agent2.update_payoff(move_agent_1)
 					if not (updated_1 and updated_2):
 						valid_pair = False
 				if not valid_pair:
