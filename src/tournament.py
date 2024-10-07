@@ -84,7 +84,6 @@ class Tournament:
 
 				agent = Agent(self.game_description, strategy_rules, self.solver_path, self.prompt_path, self.game_rules_path,
 							  strategy_string, self.strategy_prompt_path)
-
 				if agent.valid:
 					self.agents.append(agent)
 					synt_correct = True
