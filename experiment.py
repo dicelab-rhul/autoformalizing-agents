@@ -42,7 +42,7 @@ def main():
 		tournament.play_tournament()
 		winners = tournament.get_winners()
 
-		# TODO log the state of each agent at the end of the tournament:
+		# log the state of each agent at the end of the tournament:
 		# - game-dependent axioms (self.game)
 		# - status (correct, syntactic error, semantic error, runtime error, disqualified, instruction following error)
 		# we assume that only the winners are semantically correct (they achieved target payoff)
@@ -79,7 +79,7 @@ def log_tournament(experiment_dir, tournament):
 			"strategy_name": agent.strategy_name,
 			"game_rules": game.game_rules,
 			"game_moves": game.possible_moves,
-			#"status": #TODO,
+			"status": agent.status, #TODO: handle other cases
 			"moves": agent.moves,
 			"payoffs": agent.payoffs,
 			"total_payoff": agent.get_total_payoff()
