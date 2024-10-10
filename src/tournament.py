@@ -84,7 +84,6 @@ class Tournament:
 
 				agent = Agent(self.game_description, strategy_rules, self.solver_path, self.prompt_path, self.game_rules_path,
 							  strategy_string, self.strategy_prompt_path)
-
 				if agent.valid:
 					self.agents.append(agent)
 					synt_correct = True
@@ -129,7 +128,9 @@ class Tournament:
 				if not valid_pair:
 					logger.debug(
 						f"Agent {agent1.name} or {agent2.name} not valid. Excluding the pair from the tournament")
-				# TODO disqualified error
+					agent1.state = 'disqualified'
+					agent2.state = 'disqualified'
+				# disqualified error
 
 	def get_winners(self):
 		"""

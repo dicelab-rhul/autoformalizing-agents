@@ -48,6 +48,8 @@ class Agent:
 
 		self.valid = self.init(game_path)
 
+		self.status = "correct" if self.valid else "syntactic_error" #TODO: get an enum for this?
+
 	def init(self, game_rules_path=None):
 		"""
 		Initializes the agent with the game.
@@ -103,7 +105,7 @@ class Agent:
 						return False
 				else:
 					return False
-			# TODO if not valid syntactic error
+			# if not valid syntactic error
 			return self.solver.valid
 		return False
 
@@ -119,8 +121,9 @@ class Agent:
 			rules = parse_axioms(response)
 			return rules
 		except ValueError:
-			# TODO instruction following error ('@' not added)
+			# instruction following error ('@' not added)
 			logger.debug(f"Agent {self.name} experienced instruction following error!")
+			self.status = 'instruction_following_error'
 			return None
 
 	def play(self):
@@ -136,7 +139,8 @@ class Agent:
 				return move
 
 		logger.debug(f"Agent {self.name} is not valid!")
-		# TODO runtime error
+		self.status = 'runtime_error'
+		# runtime error
 		return None
 
 	def update_payoff(self, opponent_move):
@@ -160,7 +164,8 @@ class Agent:
 				return False
 		else:
 			logger.debug(f"Agent {self.name} is not valid!")
-			# TODO runtime error
+			self.status = 'runtime_error'
+			# runtime error
 			return False
 
 	def update_default_move(self, move):

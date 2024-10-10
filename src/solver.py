@@ -45,13 +45,17 @@ class Solver:
 		prolog_data = [("solver", solver_string), ("game", game_string), ("strategy", strategy)]
 		temp_files = []
 
+		# Ensure the directory exists
+		temp_dir = os.path.join(os.getcwd(), "DATA", "TEMP")
+		os.makedirs(temp_dir, exist_ok=True)
+
 		try:
 			# Write the Prolog data to temporary files
-			for name, data in prolog_data:
-				with tempfile.NamedTemporaryFile(delete=False, dir="DATA/TEMP", suffix=".pl") as temp_file:
+			for _, data in prolog_data:
+				with tempfile.NamedTemporaryFile(delete=False, dir=temp_dir, suffix=".pl") as temp_file:
 					temp_file.write(data.encode())  # Write data to file
 					temp_files.append(temp_file.name)  # Store the file path
-
+			
 			# Load each Prolog file in the Prolog solver
 			for temp_file_path, data in zip(temp_files, prolog_data):
 				temp_file_path = temp_file_path.replace(os.sep, '/')
