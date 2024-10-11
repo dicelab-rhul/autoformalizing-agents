@@ -80,7 +80,8 @@ def log_tournament(experiment_dir, tournament):
 			"strategy": agent.strategy,
 			"game_rules": game.game_rules,
 			"game_moves": game.possible_moves,
-			"status": agent.status, #TODO: handle other cases
+			"game_players": game.player_names,
+			"status": agent.status,
 			"moves": agent.moves,
 			"payoffs": agent.payoffs,
 			"total_payoff": agent.get_total_payoff()

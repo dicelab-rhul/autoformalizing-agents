@@ -5,6 +5,7 @@ from src.setup_logger import logger
 from src.utils import read_file, parse_axioms
 from llms.gpt4 import GPT4
 import os
+import json
 
 
 class Agent:
@@ -16,7 +17,7 @@ class Agent:
 	"""
 
 	def __init__(self, game_string=None, strategy_path="DATA/STRATEGIES/tit-for-tat.pl", solver_path="src/solver.pl",
-				 prompt_path="DATA/PROMPTS/prompt_template.txt", game_path=None, strategy_string=None, strategy_prompt_path=None):
+				 prompt_path="DATA/PROMPTS/prompt_template.txt", game_path=None, strategy_string=None, strategy_prompt_path=None, agent_json=None,):
 		"""
 		Initializes the Agent with a random name, an empty payoff list, moves list, and opponent's moves list.
 		"""
@@ -26,14 +27,21 @@ class Agent:
 		self.opponent_moves = []  # List to store the opponent's moves
 
 		self.game = Game(game_string)  # Game information object
-		if strategy_path:
-			self.strategy_name = strategy_path.split(os.sep)[-1][:-3]
-			self.strategy = read_file(strategy_path)  #game.game
-			self.strategy_formalise = False
+		self.initialized = False
+
+		if agent_json:
+			self.load_agent_from_json(agent_json)
+			self.initialized = True
+
 		else:
-			self.strategy_name = self.name+"_strategy"
-			self.strategy = strategy_string
-			self.strategy_formalise = True
+			if strategy_path:
+				self.strategy_name = strategy_path.split(os.sep)[-1][:-3]
+				self.strategy = read_file(strategy_path)  #game.game
+				self.strategy_formalise = False
+			else:
+				self.strategy_name = self.name+"_strategy"
+				self.strategy = strategy_string
+				self.strategy_formalise = True
 		self.strategy_prompt_path = strategy_prompt_path
 
 		self.default_move = None
@@ -46,9 +54,32 @@ class Agent:
 		self.solver = None  # Solver object
 		self.llm = GPT4()
 
-		self.valid = self.init(game_path)
+		if not self.initialized:
+			self.valid = self.init(game_path)
+			self.status = "correct" if self.valid else "syntactic_error" #TODO: get an enum for this?
+			self.initialized = True
 
-		self.status = "correct" if self.valid else "syntactic_error" #TODO: get an enum for this?
+	def load_agent_from_json(self, path_to_json):
+		"""
+		Loads all agent parameters from a json file.
+
+		:param path_to_json: path to json file
+		"""
+		with open(path_to_json, 'r') as file:
+			data = json.load(file)
+
+		# self.name = data['name']
+		self.strategy_name = data['strategy_name']
+		self.strategy = data['strategy']
+		self.game.set_rules(data['game_rules'])
+		self.valid = self.load_solver()
+		self.status = "correct" if self.valid else "syntactic_error"
+
+		# in case we were load a saved state without consulting the solver:
+		# self.game.possible_moves = data['game_moves']
+		# self.game.player_names = data['game_players']
+		# self.status = "correct"
+
 
 	def init(self, game_rules_path=None):
 		"""
