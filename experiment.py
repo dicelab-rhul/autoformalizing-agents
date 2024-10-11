@@ -77,6 +77,7 @@ def log_tournament(experiment_dir, tournament):
 		agent_log = {
 			"name": agent.name,
 			"strategy_name": agent.strategy_name,
+			"strategy": agent.strategy,
 			"game_rules": game.game_rules,
 			"game_moves": game.possible_moves,
 			"status": agent.status, #TODO: handle other cases
