@@ -1,0 +1,1 @@
+An owner of a small gallery and an owner of a big gallery each decide independently, which of two painters to promote. If their choices match, the owner of the small gallery wins 1 point, and the owner of the big gallery loses 1 point. If their choices differ, the owner of the big gallery wins 1 point, and the owner of the small gallery loses 1 point.

@@ -10,7 +10,7 @@ def main():
 
 	# Read experiment parameters
 	config = configparser.ConfigParser()
-	config.read(os.path.normpath("../DATA/CONFIG/config.ini"))
+	config.read(os.path.normpath("../DATA/CONFIG/sample_config.ini"))
 
 	GAME_DIR = os.path.normpath(config.get("Paths", "GAME_DIR"))
 	OUT_DIR = config.get("Paths", "OUT_DIR")
