@@ -9,7 +9,7 @@ from src.utils import read_file, set_normalized_path
 class Tournament:
 	def __init__(self, game_description=None, num_agents=10, max_attempts=5, num_rounds=10, clones=True,
 				 target_payoffs=None, solver_path="src/solver.pl", prompt_path="DATA/PROMPTS/prompt_template.txt",
-				 strategies_path=None, game_rules_path=None, strategies_rules_path=None, strategy_prompt_path=None):
+				 strategies_path=None, game_rules_path=None, strategies_rules_path=None, strategy_prompt_path=None, jsons_path=None, root="."):
 		"""
 		Initialize a Tournament instance.
 
@@ -26,6 +26,7 @@ class Tournament:
 			game_rules_path (str): Path to formalised game rules.
 			strategies_rules_path (str): Path to formalised strategies.
 		"""
+		self.root = root
 		self.game_description = game_description
 		self.min_agents = 2
 		self.max_agents = 50
@@ -38,7 +39,7 @@ class Tournament:
 		self.max_attempts = max_attempts
 		self.num_rounds = num_rounds
 		self.clones = clones
-		self.default_strategy = set_normalized_path("DATA/STRATEGIES/tit-for-tat.pl")
+		self.default_strategy = os.path.join(self.root,set_normalized_path("DATA/STRATEGIES/tit-for-tat.pl"))
 		self.solver_path = set_normalized_path(solver_path)  # Path to domain-independent solver
 		self.prompt_path = set_normalized_path(prompt_path)  # Path to prompt template
 		self.game_rules_path = set_normalized_path(game_rules_path)  # Path to domain-dependent solver
@@ -47,7 +48,9 @@ class Tournament:
 		self.strategy_prompt_path = strategy_prompt_path  # Path to a prompt for autoformalising strategy
 		self.target_payoffs = target_payoffs if target_payoffs else []
 		self.strategies = []
+		self.jsons_path = jsons_path
 		self.agents = []
+		self.invalid_agents = []
 
 	def create_agents(self):
 		"""
@@ -71,8 +74,15 @@ class Tournament:
 		if len(self.strategies) != self.num_agents:
 			raise ValueError("The number of strategies provided does not match the number of agents.")
 
+		if self.jsons_path is not None:
+			jsons_list = list(os.listdir(self.jsons_path))
+			if len(jsons_list) == 1:  # One agent for a tournament with different strategies
+				jsons_list = jsons_list*self.num_agents
+			if len(self.strategies) != len(jsons_list):
+				raise ValueError("The number of strategies provided does not match the number of saved agents.")
+
 		synt_correct = False
-		for strategy in self.strategies:
+		for strat_num, strategy in enumerate(self.strategies):
 			for i in range(self.max_attempts):
 				strategy_rules = None
 				strategy_string = None
@@ -82,12 +92,19 @@ class Tournament:
 				else:
 					strategy_string = strategy
 
+				agent_json = None
+				if self.jsons_path is not None:
+					json_path = jsons_list[strat_num]
+					agent_json = os.path.join(self.jsons_path, json_path)
+
 				agent = Agent(self.game_description, strategy_rules, self.solver_path, self.prompt_path, self.game_rules_path,
-							  strategy_string, self.strategy_prompt_path)
+							  strategy_string, self.strategy_prompt_path, agent_json=agent_json)
 				if agent.valid:
 					self.agents.append(agent)
 					synt_correct = True
 					break
+				else:
+					self.invalid_agents.append(agent)
 			if not synt_correct:
 				raise RuntimeError(
 					f"Couldn't create requested number of syntactically correct agents in {self.max_attempts} attempts.")
@@ -104,12 +121,11 @@ class Tournament:
 			for agent in self.agents:
 				with tempfile.NamedTemporaryFile(mode='w+', dir=os.path.join("DATA", "TEMP"), suffix=".pl", delete=False) as temp_file:
 					temp_file.write(agent.game.game_rules)
-				clone = Agent(strategy_path=os.path.join("DATA", "STRATEGIES", "tat-for-tit.pl"), game_path=temp_file.name)
+				clone = Agent(strategy_path=os.path.join(self.root, "DATA", "STRATEGIES", "anti-tit-for-tat.pl"), game_path=temp_file.name, solver_path=self.solver_path)
 				clone.name = agent.name+"_clone"
 				agent_clones.append(clone)
 				os.remove(temp_file.name)
 			agent_pairs = [(agent, clone) for (agent, clone) in zip(self.agents, agent_clones)]
-
 
 		else:
 			agent_pairs = itertools.combinations(self.agents, 2)

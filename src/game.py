@@ -1,6 +1,6 @@
 class Game:
 
-	def __init__(self, game_string, game_rules = None, game_moves = []):
+	def __init__(self, game_string, game_rules=None, game_moves=[]):
 		"""
 		Initializes the Game with a natural language description of the game and a Prolog strategy.
 

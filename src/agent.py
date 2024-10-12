@@ -17,7 +17,8 @@ class Agent:
 	"""
 
 	def __init__(self, game_string=None, strategy_path="DATA/STRATEGIES/tit-for-tat.pl", solver_path="src/solver.pl",
-				 prompt_path="DATA/PROMPTS/prompt_template.txt", game_path=None, strategy_string=None, strategy_prompt_path=None, agent_json=None,):
+				 prompt_path="DATA/PROMPTS/prompt_template.txt", game_path=None, strategy_string=None,
+				 strategy_prompt_path=None, agent_json=None):
 		"""
 		Initializes the Agent with a random name, an empty payoff list, moves list, and opponent's moves list.
 		"""
@@ -29,6 +30,8 @@ class Agent:
 		self.game = Game(game_string)  # Game information object
 		self.initialized = False
 
+		self.solver_path = solver_path  # Path to domain-independent solver
+
 		if agent_json:
 			self.load_agent_from_json(agent_json)
 			self.initialized = True
@@ -36,27 +39,25 @@ class Agent:
 		else:
 			if strategy_path:
 				self.strategy_name = strategy_path.split(os.sep)[-1][:-3]
-				self.strategy = read_file(strategy_path)  #game.game
+				self.strategy = read_file(strategy_path)
 				self.strategy_formalise = False
 			else:
-				self.strategy_name = self.name+"_strategy"
+				self.strategy_name = self.name + "_strategy"
 				self.strategy = strategy_string
 				self.strategy_formalise = True
 		self.strategy_prompt_path = strategy_prompt_path
 
-		self.default_move = None
-		self.player_name = None
-		self.opponent_name = None
-
-		self.solver_path = solver_path  # Path to domain-independent solver
 		self.prompt_path = prompt_path  # Path to prompt template
 
-		self.solver = None  # Solver object
 		self.llm = GPT4()
 
 		if not self.initialized:
+			self.default_move = None
+			self.player_name = None
+			self.opponent_name = None
+			self.solver = None  # Solver object
 			self.valid = self.init(game_path)
-			self.status = "correct" if self.valid else "syntactic_error" #TODO: get an enum for this?
+			self.status = "correct" if self.valid else "syntactic_error"  #TODO: get an enum for this?
 			self.initialized = True
 
 	def load_agent_from_json(self, path_to_json):
@@ -75,11 +76,10 @@ class Agent:
 		self.valid = self.load_solver()
 		self.status = "correct" if self.valid else "syntactic_error"
 
-		# in case we were load a saved state without consulting the solver:
-		# self.game.possible_moves = data['game_moves']
-		# self.game.player_names = data['game_players']
-		# self.status = "correct"
-
+	# in case we were load a saved state without consulting the solver:
+	# self.game.possible_moves = data['game_moves']
+	# self.game.player_names = data['game_players']
+	# self.status = "correct"
 
 	def init(self, game_rules_path=None):
 		"""
@@ -125,13 +125,15 @@ class Agent:
 					self.opponent_name = player_names[1]
 					self.game.set_players(player_names)
 					self.game.set_possible_moves(set(possible_moves))
-					default_move = self.solver.get_variable_values(f"initially(default_move({self.player_name}, X), s0).",
-																   1)
+					default_move = self.solver.get_variable_values(
+						f"initially(default_move({self.player_name}, X), s0).",
+						1)
 					if default_move:
 						self.default_move = default_move[0]
-						logger.debug(f"Agent {self.name} has possible moves {self.game.get_possible_moves()} and default"
-								 f" move {self.default_move}. The player name is {self.player_name} "
-								 f"and the opponent name is {self.opponent_name}.")
+						logger.debug(
+							f"Agent {self.name} has possible moves {self.game.get_possible_moves()} and default"
+							f" move {self.default_move}. The player name is {self.player_name} "
+							f"and the opponent name is {self.opponent_name}.")
 					else:
 						return False
 				else:
@@ -146,7 +148,7 @@ class Agent:
 
 	def autoformalise(self, prompt_path, to_replace, replace_string):
 		prompt = read_file(prompt_path)
-		prompt = prompt.replace('{'+to_replace+'}', replace_string)
+		prompt = prompt.replace('{' + to_replace + '}', replace_string)
 		response = self.llm.prompt(prompt)
 		try:
 			rules = parse_axioms(response)
@@ -169,7 +171,7 @@ class Agent:
 				logger.debug(f"Agent {self.name} made move: {move}")
 				return move
 
-		logger.debug(f"Agent {self.name} is not valid!")
+		logger.debug(f"Agent {self.name} didn't select move!")
 		self.status = 'runtime_error'
 		# runtime error
 		return None
@@ -183,8 +185,10 @@ class Agent:
 		if self.solver:
 			self.opponent_moves.append(opponent_move)
 			payoff = self.solver.get_variable_values(
-				f"finally(goal({self.player_name}, U), do(move({self.player_name}, '{self.moves[-1]}'), do(move({self.opponent_name}, '{self.opponent_moves[-1]}'), s0))).", 1)
-			updated = self.solver.apply_predicate(f"initialise(last_move({self.opponent_name}, '{opponent_move}'), s0).")
+				f"finally(goal({self.player_name}, U), do(move({self.player_name}, '{self.moves[-1]}'), do(move({self.opponent_name}, '{self.opponent_moves[-1]}'), s0))).",
+				1)
+			updated = self.solver.apply_predicate(
+				f"initialise(last_move({self.opponent_name}, '{opponent_move}'), s0).")
 			if payoff and updated:
 				payoff = float(payoff[0])
 				self.payoffs.append(payoff)
@@ -194,7 +198,7 @@ class Agent:
 			else:
 				return False
 		else:
-			logger.debug(f"Agent {self.name} is not valid!")
+			logger.debug(f"Agent {self.name} didn't receive payoff!")
 			self.status = 'runtime_error'
 			# runtime error
 			return False

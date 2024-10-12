@@ -1,15 +1,18 @@
 import configparser
 from src.tournament import Tournament
-from src.utils import read_file
+from src.utils import read_file, log_tournament
 import logging
 import os
 
-import json
-from datetime import datetime
+'''
+In this experiment, a dataset of 110 natural-language game-theoretic scenarios is autoformalised into formal logic
+specifications. To validate a syntactic correctness, a Prolog solver is used. To validate semantics correctness,
+a tournament is played, where each agent plays with strategy tit-for-tat its clone with strategy anti-tit-for-tat. 
+'''
 
 
 def main():
-	logging.debug('Test')
+	logging.debug('Experiment 1')
 
 	# Read experiment parameters
 	config = configparser.ConfigParser()
@@ -47,52 +50,13 @@ def main():
 		# - status (correct, syntactic error, semantic error, runtime error, disqualified, instruction following error)
 		# we assume that only the winners are semantically correct (they achieved target payoff)
 		# - payoffs list
-		exp_dir = os.path.join("LOGS",experiment_name)
+		exp_dir = os.path.join("LOGS", experiment_name)
 		log_tournament(experiment_dir=exp_dir, tournament=tournament)
 		# Print winners
 		print("Winners are:")
 		for winner in winners:
 			print(f"Agent {winner.name} with strategy {winner.strategy_name} and payoff {winner.get_total_payoff()}")
 
-
-def log_tournament(experiment_dir, tournament):
-	timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-	tournament_dir = os.path.join(experiment_dir, f"tournament_{timestamp}")
-	os.makedirs(tournament_dir, exist_ok=True)
-
-	# Log tournament info
-	tournament_info = {
-		"game_description": tournament.game_description,
-		"num_agents": tournament.num_agents,
-		"num_rounds": tournament.num_rounds,
-		"target_payoffs": tournament.target_payoffs,
-		"winners_payoffs": [(winner.name, winner.strategy_name, winner.get_total_payoff()) for winner in tournament.get_winners()]
-	}
-	with open(os.path.join(tournament_dir, "tournament_info.json"), "w") as f:
-		json.dump(tournament_info, f, indent=2, default=set_default)
-
-	# Log each agent's info
-	for agent in tournament.agents:
-		game = agent.game
-		agent_log = {
-			"name": agent.name,
-			"strategy_name": agent.strategy_name,
-			"strategy": agent.strategy,
-			"game_rules": game.game_rules,
-			"game_moves": game.possible_moves,
-			"game_players": game.player_names,
-			"status": agent.status,
-			"moves": agent.moves,
-			"payoffs": agent.payoffs,
-			"total_payoff": agent.get_total_payoff()
-		}
-		with open(os.path.join(tournament_dir, f"agent_{agent.name}.json"), "w") as f:
-			json.dump(agent_log, f, indent=2, default=set_default)
-		
-def set_default(obj):
-    if isinstance(obj, set):
-        return list(obj)
-    raise TypeError
 
 if __name__ == "__main__":
 	main()
