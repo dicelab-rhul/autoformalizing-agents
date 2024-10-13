@@ -32,6 +32,7 @@ class Agent:
 
 		self.solver_path = solver_path  # Path to domain-independent solver
 		self.max_attempts = max_attempts
+		self.attempts = 0
 		self.trace_messages = []
 
 		if agent_json:
@@ -93,11 +94,11 @@ class Agent:
 		"""
 		logger.debug(f"Agent {self.name} with strategy {self.strategy_name} is initializing.")
 
-		attempts = 0
+		self.attempts = 0
 		solver_correct = False
 		trace = None
-		while attempts < self.max_attempts and not solver_correct:
-			attempts += 1
+		while self.attempts < self.max_attempts and not solver_correct:
+			self.attempts += 1
 
 			# Autoformalisation mode
 			if game_rules_path is None:
@@ -212,11 +213,12 @@ class Agent:
 		The agent making a move in the tournament.
 		"""
 		if self.solver:
+			logger.debug(f"Agent {self.name} with strategy {self.strategy_name} is making a move.")
 			move = self.solver.get_variable_values(f"select({self.player_name},_,s0,M).", 1)
 			if move:
 				move = move[0]
 				self.moves.append(move)
-				logger.debug(f"Agent {self.name} made move: {move}")
+				logger.debug(f"Agent {self.name} with strategy {self.strategy_name} made move: {move}")
 				return move
 
 		logger.debug(f"Agent {self.name} didn't select move!")

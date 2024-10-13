@@ -32,7 +32,7 @@ def main():
 		# Create and play tournament
 		tournament = Tournament(game_desc, target_payoffs=target_payoffs, num_agents=num_agents,
 								num_rounds=num_rounds, solver_path=solver_path, clones=True, jsons_path=os.path.join(
-				"../DATA", "AGENTS"), root="..")
+				"../DATA", "AGENTS", "SAMPLE_AGENTS"), root="..")
 		tournament.create_agents()
 		tournament.play_tournament()
 		winners = tournament.get_winners()

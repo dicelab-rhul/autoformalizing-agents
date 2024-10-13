@@ -102,7 +102,8 @@ def log_tournament(experiment_dir, tournament, tournament_name="tournament"):
 			"payoffs": agent.payoffs,
 			"total_payoff": agent.get_total_payoff(),
 			"default_move": agent.default_move,
-			"trace_messages": agent.trace_messages
+			"trace_messages": agent.trace_messages,
+			"attempts": agent.attempts
 		}
 		with open(os.path.join(tournament_dir, f"agent_{agent.name}.json"), "w") as f:
 			json.dump(agent_log, f, indent=2, default=set_default)
