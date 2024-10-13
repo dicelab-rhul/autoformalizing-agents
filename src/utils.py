@@ -101,7 +101,8 @@ def log_tournament(experiment_dir, tournament, tournament_name="tournament"):
 			"moves": agent.moves,
 			"payoffs": agent.payoffs,
 			"total_payoff": agent.get_total_payoff(),
-			"default_move": agent.default_move
+			"default_move": agent.default_move,
+			"trace_messages": agent.trace_messages
 		}
 		with open(os.path.join(tournament_dir, f"agent_{agent.name}.json"), "w") as f:
 			json.dump(agent_log, f, indent=2, default=set_default)
@@ -111,3 +112,42 @@ def set_default(obj):
 	if isinstance(obj, set):
 		return list(obj)
 	raise TypeError
+
+
+def parse_trace(log):
+	parsed_entries = []
+	# Define regex patterns for warnings and errors
+	warning_pattern = r"Warning: .*:(\d+):\nWarning:\s+(.*)"
+	error_pattern = r"ERROR: .*:(\d+):\d+: (.*)"
+
+	# Find all warning matches
+	for match in re.finditer(warning_pattern, log):
+		line_number = match.group(1)
+		message = match.group(2).strip()
+		parsed_entries.append({'type': 'Warning', 'line': int(line_number), 'message':  re.sub(r"/[^:]+:", "line ", message)})
+
+	# Find all error matches
+	for match in re.finditer(error_pattern, log):
+		line_number = match.group(1)
+		message = match.group(2).strip()
+		parsed_entries.append({'type': 'Error', 'line': int(line_number), 'message': re.sub(r"/[^:]+:", "line ", message)})
+
+	return parsed_entries
+
+
+def process_trace(trace, full_solver):
+	messages = parse_trace(trace)
+	solver_lines = full_solver.split('\n')
+	for message in messages:
+		line = solver_lines[int(message['line'])-1]
+		message['line_content'] = line
+	return messages
+
+
+def process_trace_messages(messages, solver):
+	lines_to_correct = ""
+	for message in messages:
+		line_content = message['line_content']
+		if line_content in solver:
+			lines_to_correct += f"Line: {line_content} produced {message['type']}: {message['message']}\n"
+	return lines_to_correct

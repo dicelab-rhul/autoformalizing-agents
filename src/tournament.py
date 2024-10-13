@@ -9,7 +9,8 @@ from src.utils import read_file, set_normalized_path
 class Tournament:
 	def __init__(self, game_description=None, num_agents=10, max_attempts=5, num_rounds=10, clones=True,
 				 target_payoffs=None, solver_path="src/solver.pl", prompt_path="DATA/PROMPTS/prompt_template.txt",
-				 strategies_path=None, game_rules_path=None, strategies_rules_path=None, strategy_prompt_path=None, jsons_path=None, root="."):
+				 feedback_prompt_path="DATA/PROMPTS/feedback_prompt_template.txt", strategies_path=None,
+				 game_rules_path=None, strategies_rules_path=None, strategy_prompt_path=None, jsons_path=None, root="."):
 		"""
 		Initialize a Tournament instance.
 
@@ -42,6 +43,7 @@ class Tournament:
 		self.default_strategy = os.path.join(self.root,set_normalized_path("DATA/STRATEGIES/tit-for-tat.pl"))
 		self.solver_path = set_normalized_path(solver_path)  # Path to domain-independent solver
 		self.prompt_path = set_normalized_path(prompt_path)  # Path to prompt template
+		self.feedback_prompt_path = set_normalized_path(feedback_prompt_path)  # Path to prompt template
 		self.game_rules_path = set_normalized_path(game_rules_path)  # Path to domain-dependent solver
 		self.strategies_path = set_normalized_path(strategies_path)  # Path to strategy natural language descriptions
 		self.strategies_rules_path = set_normalized_path(strategies_rules_path)  # Path to strategy axioms
@@ -81,33 +83,28 @@ class Tournament:
 			if len(self.strategies) != len(jsons_list):
 				raise ValueError("The number of strategies provided does not match the number of saved agents.")
 
-		synt_correct = False
 		for strat_num, strategy in enumerate(self.strategies):
-			for i in range(self.max_attempts):
-				strategy_rules = None
-				strategy_string = None
+			strategy_rules = None
+			strategy_string = None
 
-				if self.clones or self.strategies_rules_path:
-					strategy_rules = strategy
-				else:
-					strategy_string = strategy
+			if self.clones or self.strategies_rules_path:
+				strategy_rules = strategy
+			else:
+				strategy_string = strategy
 
-				agent_json = None
-				if self.jsons_path is not None:
-					json_path = jsons_list[strat_num]
-					agent_json = os.path.join(self.jsons_path, json_path)
+			agent_json = None
+			if self.jsons_path is not None:
+				json_path = jsons_list[strat_num]
+				agent_json = os.path.join(self.jsons_path, json_path)
 
-				agent = Agent(self.game_description, strategy_rules, self.solver_path, self.prompt_path, self.game_rules_path,
-							  strategy_string, self.strategy_prompt_path, agent_json=agent_json)
-				if agent.valid:
-					self.agents.append(agent)
-					synt_correct = True
-					break
-				else:
-					self.invalid_agents.append(agent)
-			if not synt_correct:
-				raise RuntimeError(
-					f"Couldn't create requested number of syntactically correct agents in {self.max_attempts} attempts.")
+			agent = Agent(game_string=self.game_description, strategy_path=strategy_rules, solver_path=self.solver_path,
+						  prompt_path=self.prompt_path, feedback_prompt_path=self.feedback_prompt_path, game_path=self.game_rules_path,
+						  strategy_string=strategy_string, strategy_prompt_path=self.strategy_prompt_path,
+						  max_attempts=self.max_attempts, agent_json=agent_json)
+			if agent.valid:
+				self.agents.append(agent)
+			else:
+				self.invalid_agents.append(agent)
 
 	def play_tournament(self):
 		"""

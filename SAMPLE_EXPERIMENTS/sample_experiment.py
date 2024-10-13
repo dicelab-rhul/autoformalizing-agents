@@ -18,6 +18,7 @@ def main():
 		os.makedirs(OUT_DIR)
 	solver_path = os.path.normpath(config.get("Paths", "SOLVER_PATH"))
 	template_path = os.path.normpath(config.get("Paths", "TEMPLATE_PATH"))
+	feedback_template_path = os.path.normpath(config.get("Paths", "FEEDBACK_TEMPLATE_PATH"))
 
 	num_agents = config.getint("Params", "num_agents")
 	num_rounds = config.getint("Params", "num_rounds")
@@ -33,8 +34,8 @@ def main():
 	for game_desc in game_descriptions:
 		# Create and play tournament
 		tournament = Tournament(game_desc, target_payoffs=target_payoffs, num_agents=num_agents,
-								max_attempts=max_attempts, num_rounds=num_rounds,
-								solver_path=solver_path, prompt_path=template_path, clones=True, root="..")
+								max_attempts=max_attempts, num_rounds=num_rounds, solver_path=solver_path,
+								prompt_path=template_path, feedback_prompt_path=feedback_template_path, clones=True, root="..")
 		tournament.create_agents()
 		tournament.play_tournament()
 		winners = tournament.get_winners()

@@ -1,8 +1,8 @@
 from src.game import Game
-from src.utils import generate_agent_name, read_file
+from src.utils import generate_agent_name
 from src.solver import Solver
 from src.setup_logger import logger
-from src.utils import read_file, parse_axioms
+from src.utils import read_file, parse_axioms, process_trace, process_trace_messages
 from llms.gpt4 import GPT4
 import os
 import json
@@ -17,8 +17,8 @@ class Agent:
 	"""
 
 	def __init__(self, game_string=None, strategy_path="DATA/STRATEGIES/tit-for-tat.pl", solver_path="src/solver.pl",
-				 prompt_path="DATA/PROMPTS/prompt_template.txt", game_path=None, strategy_string=None,
-				 strategy_prompt_path=None, agent_json=None):
+				 prompt_path="DATA/PROMPTS/prompt_template.txt", feedback_prompt_path="DATA/PROMPTS/feedback_prompt_template.txt",
+				 game_path=None, strategy_string=None, strategy_prompt_path=None, max_attempts=1, agent_json=None):
 		"""
 		Initializes the Agent with a random name, an empty payoff list, moves list, and opponent's moves list.
 		"""
@@ -31,6 +31,8 @@ class Agent:
 		self.initialized = False
 
 		self.solver_path = solver_path  # Path to domain-independent solver
+		self.max_attempts = max_attempts
+		self.trace_messages = []
 
 		if agent_json:
 			self.load_agent_from_json(agent_json)
@@ -48,8 +50,9 @@ class Agent:
 		self.strategy_prompt_path = strategy_prompt_path
 
 		self.prompt_path = prompt_path  # Path to prompt template
+		self.feedback_prompt_path = feedback_prompt_path
 
-		self.llm = GPT4()
+		self.llm = GPT4(save_history=True)
 
 		if not self.initialized:
 			self.default_move = None
@@ -75,6 +78,7 @@ class Agent:
 		self.game.set_rules(data['game_rules'])
 		self.valid = self.load_solver()
 		self.status = "correct" if self.valid else "syntactic_error"
+		self.trace_messages = data['trace_messages']
 
 	# in case we were load a saved state without consulting the solver:
 	# self.game.possible_moves = data['game_moves']
@@ -89,34 +93,77 @@ class Agent:
 		"""
 		logger.debug(f"Agent {self.name} with strategy {self.strategy_name} is initializing.")
 
-		# Autoformalisation mode
-		if game_rules_path is None:
-			game_rules = self.autoformalise(self.prompt_path, "game_description", self.game.game_string)
-			if game_rules:
+		attempts = 0
+		solver_correct = False
+		trace = None
+		while attempts < self.max_attempts and not solver_correct:
+			attempts += 1
+
+			# Autoformalisation mode
+			if game_rules_path is None:
+				# First attempt or no solver was created
+				logger.debug(f"Agent {self.name} is autoformalising rules.")
+				if self.solver is None:
+					game_rules = self.autoformalise(self.prompt_path, ["game_description"], [self.game.game_string])
+					if game_rules:
+						self.game.set_rules(game_rules)
+					else:
+						continue
+				# Subsequent attempt and an error is in the game rules
+				elif trace:
+					messages = process_trace(trace, self.game.game_rules)
+					lines_to_correct = process_trace_messages(messages, self.game.game_rules)
+					if lines_to_correct != "":
+						logger.debug(f"Agent {self.name} is correcting rules.")
+						logger.debug(f"Messages:\n {lines_to_correct}")
+						self.trace_messages += lines_to_correct
+						game_rules = self.autoformalise(self.feedback_prompt_path, ["code", "messages"], [self.game.game_rules, lines_to_correct])
+						if game_rules:
+							self.game.set_rules(game_rules)
+						else:
+							continue
+
+			# Read mode
+			else:
+				game_rules = read_file(os.path.normpath(game_rules_path))
 				self.game.set_rules(game_rules)
-			else:
-				return False
-		# Read mode
-		else:
-			game_rules = read_file(os.path.normpath(game_rules_path))
-			self.game.set_rules(game_rules)
 
-		if self.strategy_formalise:
-			strategy_rules = self.autoformalise(self.strategy_prompt_path, "strategy_description", self.strategy)
-			if strategy_rules:
-				self.strategy = strategy_rules
-			else:
-				return False
+			if self.strategy_formalise:
+				# First attempt or no solver was created
+				if self.solver is None:
+					logger.debug(f"Agent {self.name} is autoformalising strategy.")
+					strategy_rules = self.autoformalise(self.strategy_prompt_path, ["strategy_description"], [self.strategy])
+					if strategy_rules:
+						self.strategy = strategy_rules
+					else:
+						continue
+				# Subsequent attempt and an error is in the strategy
+				elif trace:
+					messages = process_trace(trace, self.strategy)
+					lines_to_correct = process_trace_messages(messages, self.strategy)
+					if lines_to_correct != "":
+						logger.debug(f"Agent {self.name} is correcting strategy.")
+						logger.debug(f"Messages:\n {lines_to_correct}")
+						self.trace_messages += lines_to_correct
+						strategy_rules = self.autoformalise(self.feedback_prompt_path, ["code", "messages"],
+														[self.strategy, lines_to_correct])
+						if strategy_rules:
+							self.strategy = strategy_rules
+						else:
+							continue
+			solver_correct, trace = self.load_solver()
 
-		return self.load_solver()
+		return solver_correct
 
 	def load_solver(self):
 		solver_string = read_file(self.solver_path)
 
 		if self.game and solver_string:
 			self.solver = Solver(solver_string, self.game.game_rules, self.strategy)
-
 			if self.solver:
+				if self.solver.trace:
+					# if not valid syntactic error
+					return self.solver.valid, self.solver.trace
 				possible_moves = self.solver.get_variable_values("possible(move(_,X), s0).")
 				player_names = self.solver.get_variable_values("holds(player(N), s0).")
 
@@ -135,20 +182,21 @@ class Agent:
 							f" move {self.default_move}. The player name is {self.player_name} "
 							f"and the opponent name is {self.opponent_name}.")
 					else:
-						return False
+						return False, self.solver.trace
 				else:
-					return False
+					return False, self.solver.trace
 			# if not valid syntactic error
-			return self.solver.valid
-		return False
+			return self.solver.valid, self.solver.trace
+		return False, None
 
 	def update_strategy(self, strategy_path):
 		self.strategy = strategy_path
 		self.load_solver()
 
-	def autoformalise(self, prompt_path, to_replace, replace_string):
+	def autoformalise(self, prompt_path, placeholders, replace_strings):
 		prompt = read_file(prompt_path)
-		prompt = prompt.replace('{' + to_replace + '}', replace_string)
+		for placeholder, replace_string in zip(placeholders, replace_strings):
+			prompt = prompt.replace('{' + placeholder + '}', replace_string)
 		response = self.llm.prompt(prompt)
 		try:
 			rules = parse_axioms(response)

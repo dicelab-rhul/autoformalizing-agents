@@ -23,6 +23,8 @@ class Solver:
 		# Create prolog thread to query the solver
 		self.valid = False
 		self.prolog_thread = PrologMQI().create_thread()
+		self.trace = None
+		self.full_solver = None
 		self.consult_and_validate(solver_string, game_string, strategy)
 
 	def consult_and_validate(self, solver_string: str, game_string: str, strategy: str, predicates=("select/4", "initialise/2", "opposite_move/2")):
@@ -40,6 +42,7 @@ class Solver:
 		ch.setLevel(logging.CRITICAL)  # Capture only CRITICAL log messages
 		logging.getLogger('swiplserver').addHandler(ch)
 
+		self.full_solver = solver_string + game_string + strategy
 		correct = True
 		# List of Prolog data to be written to files
 		prolog_data = [("solver", solver_string), ("game", game_string), ("strategy", strategy)]
@@ -75,14 +78,14 @@ class Solver:
 
 		except Exception as e:
 			correct = False
-			trace = str(e)
-			logger.error(f"Prolog error trace: {trace}")
+			self.trace = str(e)
+			logger.error(f"Prolog error trace: {self.trace}")
 
 		log_contents = log_capture_string.getvalue()
 		if log_contents and correct:  # If there's a log message, and we haven't caught an exception
 			correct = False
-			trace = log_contents.strip()
-			logger.error(f"Prolog error from logs: {trace}")
+			self.trace = log_contents.strip()
+			logger.error(f"Prolog error from logs: {self.trace}")
 
 		# Remove the custom log handler
 		logging.getLogger('swiplserver').removeHandler(ch)

@@ -18,6 +18,8 @@
     "mudslings",
     "mudslings"
   ],
+    "trace_messages": [
+  ],
   "payoffs": [
     5.0,
     2.0,

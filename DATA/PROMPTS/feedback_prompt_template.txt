@@ -1,0 +1,9 @@
+The following Prolog program:
+
+{code}
+
+generated the following messages:
+
+{messages}
+
+Rewrite the entire code, fixing the errors and/or warnings. Mark the beginning and end of the fixed version of the Prolog code with a '@'. Do not put any non-Prolog syntax between '@' characters.
