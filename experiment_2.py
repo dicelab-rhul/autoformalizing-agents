@@ -22,7 +22,6 @@ def main():
 	if not os.path.exists(OUT_DIR):
 		os.makedirs(OUT_DIR)
 	solver_path = os.path.normpath(config.get("Paths", "SOLVER_PATH"))
-	feedback_template_path = os.path.normpath(config.get("Paths", "FEEDBACK_TEMPLATE_PATH"))
 	strategies_path = os.path.normpath(config.get("Paths", "STRATEGIES_PATH"))
 	agents_path = os.path.normpath(config.get("Paths", "AGENTS_PATH"))
 
@@ -37,8 +36,7 @@ def main():
 
 	for agent in agents:
 		tournament = Tournament(num_agents=num_agents, num_rounds=num_rounds, solver_path=solver_path,
-								strategies_rules_path=strategies_path, feedback_prompt_path=feedback_template_path,
-								jsons_path=agent, clones=False)
+								strategies_rules_path=strategies_path, jsons_path=agent, clones=False)
 		tournament.create_agents()
 		tournament.play_tournament()
 		winners = tournament.get_winners()

@@ -35,7 +35,8 @@ def main():
 		# Create and play tournament
 		tournament = Tournament(game_desc, target_payoffs=target_payoffs, num_agents=num_agents,
 								max_attempts=max_attempts, num_rounds=num_rounds, solver_path=solver_path,
-								prompt_path=template_path, feedback_prompt_path=feedback_template_path, clones=True, root="..")
+								prompt_path=template_path, feedback_prompt_path=feedback_template_path, clones=True,
+								use_default_strategy=True, root="..")
 		tournament.create_agents()
 		tournament.play_tournament()
 		winners = tournament.get_winners()

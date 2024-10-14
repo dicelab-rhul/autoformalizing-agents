@@ -1,0 +1,1 @@
+The anti-tit-for-tat strategy begins with a default move. Then, in each subsequent interaction, it selects a move opposite to the opponent's previous move.

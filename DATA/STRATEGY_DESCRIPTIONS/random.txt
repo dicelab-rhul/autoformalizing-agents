@@ -1,0 +1,1 @@
+Selects a move at random with uniform probability.

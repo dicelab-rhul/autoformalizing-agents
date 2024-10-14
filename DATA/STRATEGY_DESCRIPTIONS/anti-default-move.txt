@@ -1,0 +1,1 @@
+Always select the move that is the opposite of the default move.

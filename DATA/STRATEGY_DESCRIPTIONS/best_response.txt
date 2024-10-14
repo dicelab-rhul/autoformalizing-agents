@@ -1,0 +1,1 @@
+The best response strategy begins with a default move. Then, in each subsequent interaction, it selects the move that would give the highest payoff against the opponent's previous move.

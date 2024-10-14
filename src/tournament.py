@@ -11,7 +11,7 @@ class Tournament:
 	def __init__(self, game_description=None, num_agents=10, max_attempts=5, num_rounds=10, clones=True,
 				 target_payoffs=None, solver_path="src/solver.pl", prompt_path="DATA/PROMPTS/prompt_template.txt",
 				 feedback_prompt_path="DATA/PROMPTS/feedback_prompt_template.txt", strategies_path=None, clone_strategy="DATA/STRATEGIES/anti-tit-for-tat.pl",
-				 game_rules_path=None, strategies_rules_path=None, strategy_prompt_path=None, jsons_path=None, root="."):
+				 game_rules_path=None, strategies_rules_path=None, strategy_prompt_path=None, jsons_path=None, use_default_strategy=False, root="."):
 		"""
 		Initialize a Tournament instance.
 
@@ -30,7 +30,7 @@ class Tournament:
 		"""
 		self.root = root
 		self.game_description = game_description
-		self.min_agents = 2
+		self.min_agents = 1
 		self.max_agents = 50
 		if not (self.min_agents <= num_agents <= self.max_agents):
 			raise ValueError(
@@ -40,6 +40,7 @@ class Tournament:
 		self.num_rounds = num_rounds
 		self.clones = clones
 		self.default_strategy = os.path.join(self.root, set_normalized_path("DATA/STRATEGIES/tit-for-tat.pl"))
+		self.use_default_strategy = use_default_strategy
 		self.clone_strategy = os.path.join(self.root, set_normalized_path(clone_strategy))
 		self.solver_path = set_normalized_path(solver_path)  # Path to domain-independent solver
 		self.prompt_path = set_normalized_path(prompt_path)  # Path to prompt template
@@ -59,26 +60,33 @@ class Tournament:
 		Create agents based on the game and strategies provided.
 		"""
 		# If clones mode, use default strategy for all agents
-		if self.clones:
+		if self.use_default_strategy:
 			self.strategies = [self.default_strategy] * self.num_agents
 
 		# Read predefined strategies
 		elif self.strategies_rules_path:
 			strategies_names = []
-			for f in os.listdir(self.strategies_rules_path):
+			for f in sorted(os.listdir(self.strategies_rules_path)):
 				self.strategies.append(read_file(os.path.join(self.strategies_rules_path, f)))
 				strategies_names.append(f[:-3])
 
 		# Autoformalise strategies
 		elif self.strategies_path:
-			for f in os.listdir(self.strategies_path):
+			for f in sorted(os.listdir(self.strategies_path)):
 				self.strategies.append(read_file(os.path.join(self.strategies_path, f)))
+			if len(self.strategies) < self.num_agents:
+				self.strategies = [strategy for strategy in self.strategies for _ in range(self.num_agents)]
+
+		# Saved agents provided and no strategies provided
+		elif self.jsons_path:
+			# Mock strategies
+			self.strategies = [None]*self.num_agents
 
 		# Check if the number of strategies equals the number of agents
 		if len(self.strategies) != self.num_agents:
 			raise ValueError("The number of strategies provided does not match the number of agents.")
 
-		if self.jsons_path is not None:
+		if self.jsons_path:
 			jsons_list = list(os.listdir(self.jsons_path))
 			if len(jsons_list) == 1:  # One agent for a tournament with different strategies
 				jsons_list = jsons_list*self.num_agents
@@ -89,9 +97,9 @@ class Tournament:
 			strategy_rules = None
 			strategy_string = None
 
-			if self.clones or self.strategies_rules_path:
+			if self.strategies_rules_path or self.use_default_strategy:
 				strategy_rules = strategy
-			else:
+			if self.strategies_path:
 				strategy_string = strategy
 
 			agent_json = None
@@ -110,7 +118,7 @@ class Tournament:
 						  strategy_string=strategy_string, strategy_prompt_path=self.strategy_prompt_path,
 						  max_attempts=self.max_attempts, agent_json=agent_json)
 
-			# If strategy is also provided
+			# If strategy is also provided for a loaded agent
 			if self.jsons_path and self.strategies_rules_path:
 				#  Replace the saved strategy with a provided one
 				agent.strategy = strategy

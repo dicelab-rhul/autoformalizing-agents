@@ -34,6 +34,9 @@ class Agent:
 		self.max_attempts = max_attempts
 		self.attempts = 0
 		self.trace_messages = []
+		self.strategy = ""
+		self.strategy_name = "unnamed_strategy"
+		self.strategy_formalise = False
 
 		if agent_json:
 			self.load_agent_from_json(agent_json)
@@ -41,13 +44,13 @@ class Agent:
 
 		else:
 			if strategy_path:
-				self.strategy_name = strategy_path.split(os.sep)[-1][:-3]
+				self.strategy_name = strategy_path.split(os.sep)[-1].replace(".pl", "")
 				self.strategy = read_file(strategy_path)
 				self.strategy_formalise = False
-			else:
-				self.strategy_name = self.name + "_strategy"
-				self.strategy = strategy_string
-				self.strategy_formalise = True
+		if strategy_string:
+			self.strategy_name = self.name + "_strategy"
+			self.strategy = strategy_string
+			self.strategy_formalise = True
 		self.strategy_prompt_path = strategy_prompt_path
 
 		self.prompt_path = prompt_path  # Path to prompt template
@@ -62,6 +65,13 @@ class Agent:
 			self.solver = None  # Solver object
 			self.valid = self.init(game_path)
 			self.status = "correct" if self.valid else "syntactic_error"  #TODO: get an enum for this?
+			self.initialized = True
+
+		if agent_json and self.strategy_formalise:
+			self.strategy = strategy_string
+			self.solver = None
+			self.valid = self.init(game_rules_string=self.game.game_rules)
+			self.status = "correct" if self.valid else "syntactic_error"  # TODO: get an enum for this?
 			self.initialized = True
 
 	def load_agent_from_json(self, path_to_json):
@@ -86,7 +96,7 @@ class Agent:
 	# self.game.player_names = data['game_players']
 	# self.status = "correct"
 
-	def init(self, game_rules_path=None):
+	def init(self, game_rules_path=None, game_rules_string=None):
 		"""
 		Initializes the agent with the game.
 
@@ -100,8 +110,10 @@ class Agent:
 		while self.attempts < self.max_attempts and not solver_correct:
 			self.attempts += 1
 
+			if game_rules_string:
+				self.game.set_rules(game_rules_string)
 			# Autoformalisation mode
-			if game_rules_path is None:
+			elif game_rules_path is None:
 				# First attempt or no solver was created
 				logger.debug(f"Agent {self.name} is autoformalising rules.")
 				if self.solver is None:
@@ -124,7 +136,7 @@ class Agent:
 						else:
 							continue
 
-			# Read mode
+			# Read from file mode
 			else:
 				game_rules = read_file(os.path.normpath(game_rules_path))
 				self.game.set_rules(game_rules)

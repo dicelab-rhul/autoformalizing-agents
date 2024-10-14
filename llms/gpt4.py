@@ -1,4 +1,5 @@
 from src.base_llm import BaseLLM
+from src.setup_logger import logger
 from openai import OpenAI
 
 
@@ -44,6 +45,7 @@ class GPT4(BaseLLM):
 		Returns:
 			str: The response from the language model.
 		"""
+		#logger.debug(f"instruction: {instruction}")
 		wrapped_message = {"role": "user", "content": instruction}
 		# Construct message for prompt
 		if not self.save_history:
@@ -59,6 +61,7 @@ class GPT4(BaseLLM):
 		)
 		# Extract and return the response content
 		content = response.choices[0].message.content
+		#logger.debug(f"response: {content}")
 		return content
 
 	def add_response(self, response):
