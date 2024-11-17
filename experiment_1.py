@@ -6,19 +6,21 @@ import os
 import pandas as pd
 
 '''
-In this experiment, a dataset of 55 natural-language game-theoretic scenarios is autoformalized into formal logic
-specifications. To validate the syntactic correctness, a Prolog solver is used. To validate semantics correctness,
-a tournament is played, where each agent plays with strategy tit-for-tat its clone with strategy anti-tit-for-tat. 
+In this experiment, a dataset of 55 natural-language game-theoretic scenarios is autoformalized into formal logic 
+specifications. To ensure syntactic correctness, a Prolog solver is employed for validation. For semantic validation, 
+a tournament is conducted in which each agent using a tit-for-tat strategy competes against its clone using 
+an anti-tit-for-tat strategy. 
 '''
 
 
 def main():
 	logging.debug('Experiment 1')
-
-	# Read experiment parameters
 	config = configparser.ConfigParser()
+
+	# Step 1: Read configuration
 	config.read(os.path.normpath("DATA/CONFIG/experiment_1.ini"))
 
+	# Step 2: Extract configuration parameters
 	GAME_DIR = os.path.normpath(config.get("Paths", "GAME_DIR"))
 	OUT_DIR = config.get("Paths", "OUT_DIR")
 	if not os.path.exists(OUT_DIR):
@@ -26,20 +28,17 @@ def main():
 	solver_path = os.path.normpath(config.get("Paths", "SOLVER_PATH"))
 	template_path = os.path.normpath(config.get("Paths", "TEMPLATE_PATH"))
 	feedback_template_path = os.path.normpath(config.get("Paths", "FEEDBACK_TEMPLATE_PATH"))
-
 	num_agents = config.getint("Params", "num_agents")
 	num_rounds = config.getint("Params", "num_rounds")
 	max_attempts = config.getint("Params", "max_attempts")
 
-	# Read sample game description
+	# Step 3: Load game descriptions
 	games_payoffs = pd.read_csv("DATA/MISC/payoff_sums_adjusted.csv")
 
+	# Step 4: Run the tournament for each game description
 	experiment_name = "experiment_1"
-
 	for idx, row in games_payoffs.iterrows():
 		game_desc_file = row["Game File"]
-		if game_desc_file not in os.listdir(GAME_DIR):
-			continue
 		game_desc = read_file(os.path.join(GAME_DIR, game_desc_file))
 		target_payoffs = [row["Row Player Payoff Sum"]]*num_agents
 		# Create and play tournament

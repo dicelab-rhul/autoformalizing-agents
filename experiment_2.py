@@ -5,35 +5,35 @@ import logging
 import os
 
 '''
-"Axelrod's tournament". In this experiment, 5 agents with autoformalized rules, one for each of 5 different games,
-are loaded. Then, copies of each agent play against each other, using different predefined strategies. The results 
-of this tournament show which strategy is on average the most effective for each game. 
+In the experiment modeled after "Axelrod's tournament," five agents, each autoformalized with rules for a distinct game,
+are loaded. Copies of these agents then compete against each other using various predefined strategies. The tournament 
+results show which strategy proves most effective on average for each game.
 '''
 
 
 def main():
 	logging.debug('Experiment 2')
-
-	# Read experiment parameters
 	config = configparser.ConfigParser()
+
+	# Step 1: Read configuration
 	config.read(os.path.normpath("DATA/CONFIG/experiment_2.ini"))
 
+	# Step 2: Extract configuration parameters
 	OUT_DIR = config.get("Paths", "OUT_DIR")
 	if not os.path.exists(OUT_DIR):
 		os.makedirs(OUT_DIR)
 	solver_path = os.path.normpath(config.get("Paths", "SOLVER_PATH"))
 	strategies_path = os.path.normpath(config.get("Paths", "STRATEGIES_PATH"))
 	agents_path = os.path.normpath(config.get("Paths", "AGENTS_PATH"))
-
 	num_rounds = config.getint("Params", "num_rounds")
 
-	# Read agents and strategies
+	# Step 3: Read agents and strategies
 	strategies = [os.path.join(strategies_path, strat_name) for strat_name in os.listdir(strategies_path)]
 	agents = [os.path.join(agents_path, agent) for agent in os.listdir(agents_path)]
 	num_agents = len(strategies)
 
+	# Step 4: Run the tournament for each agent (game definition)
 	experiment_name = "experiment_2"
-
 	for agent in agents:
 		tournament = Tournament(num_agents=num_agents, num_rounds=num_rounds, solver_path=solver_path,
 								strategies_rules_path=strategies_path, jsons_path=agent, clones=False)

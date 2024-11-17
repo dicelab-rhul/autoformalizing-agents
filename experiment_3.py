@@ -5,17 +5,19 @@ import logging
 import os
 
 '''
-In this experiment, we autoformalize strategies, providing a game solver and a tit-for-tat strategy as an example. 
+In this experiment, we demonstrate the autoformalization of strategies, using a game solver 
+and the tit-for-tat strategy as examples. 
 '''
 
 
 def main():
 	logging.debug('Experiment 3')
-
-	# Read experiment parameters
 	config = configparser.ConfigParser()
+
+	# Step 1: Read configuration
 	config.read(os.path.normpath("DATA/CONFIG/experiment_3.ini"))
 
+	# Step 2: Extract configuration parameters
 	OUT_DIR = config.get("Paths", "OUT_DIR")
 	if not os.path.exists(OUT_DIR):
 		os.makedirs(OUT_DIR)
@@ -24,14 +26,13 @@ def main():
 	agent_path = os.path.normpath(config.get("Paths", "AGENT_PATH"))
 	feedback_template_path = os.path.normpath(config.get("Paths", "FEEDBACK_TEMPLATE_PATH"))
 	strategy_template_path = os.path.normpath(config.get("Paths", "STRATEGY_PROMPT"))
-
 	num_rounds = config.getint("Params", "num_rounds")
 	num_agents = config.getint("Params", "num_agents")
 	target_payoffs = config.get("Params", "target_payoffs")
 	target_payoffs = [int(payoff) for payoff in target_payoffs.split(";")]
 
+	# Step 3: Run the tournament providing the path to strategies descriptions
 	experiment_name = "experiment_3"
-
 	tournament = Tournament(num_agents=num_agents, num_rounds=num_rounds, solver_path=solver_path, target_payoffs=target_payoffs,
 							feedback_prompt_path=feedback_template_path, strategy_prompt_path=strategy_template_path,
 							strategies_path=strategies_path, jsons_path=agent_path, clones=True)
