@@ -1,18 +1,16 @@
 import configparser
 from src.tournament import Tournament
-from src.utils import read_file, log_tournament
+from src.utils import log_tournament
 import logging
 import os
 
 '''
-In this experiment, we autoformalise strategies, providing a game solver and a tit-for-tat strategy as an example. 
+In this experiment, we autoformalize strategies, providing a game solver and a tit-for-tat strategy as an example. 
 '''
 
 
 def main():
 	logging.debug('Experiment 3')
-
-	# TODO add target payoffs
 
 	# Read experiment parameters
 	config = configparser.ConfigParser()
@@ -29,10 +27,12 @@ def main():
 
 	num_rounds = config.getint("Params", "num_rounds")
 	num_agents = config.getint("Params", "num_agents")
+	target_payoffs = config.get("Params", "target_payoffs")
+	target_payoffs = [int(payoff) for payoff in target_payoffs.split(";")]
 
 	experiment_name = "experiment_3"
 
-	tournament = Tournament(num_agents=num_agents, num_rounds=num_rounds, solver_path=solver_path,
+	tournament = Tournament(num_agents=num_agents, num_rounds=num_rounds, solver_path=solver_path, target_payoffs=target_payoffs,
 							feedback_prompt_path=feedback_template_path, strategy_prompt_path=strategy_template_path,
 							strategies_path=strategies_path, jsons_path=agent_path, clones=True)
 	tournament.create_agents()

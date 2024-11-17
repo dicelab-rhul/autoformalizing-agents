@@ -5,13 +5,20 @@ import logging
 import os
 
 
-def main():
-	logging.debug('Test')
+def main() -> None:
+	"""
+	Main function to execute the sample autoformalizing experiment.
 
-	# Read experiment parameters
+	It reads configuration parameters, loads the game descriptions, initializes a tournament,
+	and logs the results, including the details of the winning agents.
+	"""
+	logging.debug('Test')
 	config = configparser.ConfigParser()
+
+	# Step 1: Read configuration
 	config.read(os.path.normpath("../DATA/CONFIG/sample_config.ini"))
 
+	# Step 2: Extract configuration parameters
 	GAME_DIR = os.path.normpath(config.get("Paths", "GAME_DIR"))
 	OUT_DIR = config.get("Paths", "OUT_DIR")
 	if not os.path.exists(OUT_DIR):
@@ -19,18 +26,17 @@ def main():
 	solver_path = os.path.normpath(config.get("Paths", "SOLVER_PATH"))
 	template_path = os.path.normpath(config.get("Paths", "TEMPLATE_PATH"))
 	feedback_template_path = os.path.normpath(config.get("Paths", "FEEDBACK_TEMPLATE_PATH"))
-
 	num_agents = config.getint("Params", "num_agents")
 	num_rounds = config.getint("Params", "num_rounds")
 	max_attempts = config.getint("Params", "max_attempts")
 	target_payoffs = config.get("Params", "target_payoffs")
 	target_payoffs = [int(x) for x in target_payoffs.split(';')]
 
-	# Read sample game description
+	# Step 3: Load game descriptions
 	game_descriptions = [read_file(os.path.join(GAME_DIR, "pd_noncanonic_test.txt"))]
 
+	# Step 4: Run the tournament for each game description
 	experiment_name = "dummy_experiment"
-
 	for game_desc in game_descriptions:
 		# Create and play tournament
 		tournament = Tournament(game_desc, target_payoffs=target_payoffs, num_agents=num_agents,

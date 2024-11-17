@@ -69,7 +69,7 @@ The verbal description of another game is as follows:
 
 {game_description}
 
-Produce set of domain specific axioms for the game. Mark the beginning and end of the Prolog code with a '@'. Include what holds initially: who is a player, their role, whether they can play, and the default move. Include what are opposite moves. The names of the moves should be enclosed within single quotation marks. Write code compatible with SWI Prolog. If the clauses of a specified predicate are not together in the source file, use the discontiguous declaration of SWI:
+Produce set of domain specific axioms for the game. Mark the beginning and end of the Prolog code with a '@'. Include what holds initially: who is a player, their role, whether they can play, and the default move. Include what are possible and opposite moves. The names of the moves should be enclosed within single quotation marks. Write code compatible with SWI Prolog. If the clauses of a specified predicate are not together in the source file, use the discontiguous declaration of SWI:
 
 :- discontiguous p/3.
 

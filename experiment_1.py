@@ -6,7 +6,7 @@ import os
 import pandas as pd
 
 '''
-In this experiment, a dataset of 55 natural-language game-theoretic scenarios is autoformalised into formal logic
+In this experiment, a dataset of 55 natural-language game-theoretic scenarios is autoformalized into formal logic
 specifications. To validate the syntactic correctness, a Prolog solver is used. To validate semantics correctness,
 a tournament is played, where each agent plays with strategy tit-for-tat its clone with strategy anti-tit-for-tat. 
 '''
@@ -38,6 +38,8 @@ def main():
 
 	for idx, row in games_payoffs.iterrows():
 		game_desc_file = row["Game File"]
+		if game_desc_file not in os.listdir(GAME_DIR):
+			continue
 		game_desc = read_file(os.path.join(GAME_DIR, game_desc_file))
 		target_payoffs = [row["Row Player Payoff Sum"]]*num_agents
 		# Create and play tournament

@@ -8,7 +8,7 @@ class RandomAgent(Agent):
 		The agent making a move in the tournament.
 		"""
 		if self.solver:
-			possible_moves = ",".join(self.game.possible_moves)
+			possible_moves = ",".join(f"'{move}'" for move in self.game.possible_moves)
 			move = self.solver.get_variable_values(f"select(_,_,[{possible_moves}],M).", 1)
 			if move:
 				move = move[0]

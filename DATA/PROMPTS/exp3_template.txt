@@ -78,4 +78,4 @@ Here's a description of a different strategy:
 
 {strategy_description}
 
-Produce Prolog representation of the new strategy for the above game. Do not use constants for the names of the moves. Mark the beginning and end of the Prolog code with a '@'. Do not put any non-Prolog syntax between '@' characters.
+Produce Prolog representation of the new strategy for the above game. Name the predicate "select". Do not use constants for the names of the moves. Mark the beginning and end of the Prolog code with a '@'. Do not put any non-Prolog syntax between '@' characters.

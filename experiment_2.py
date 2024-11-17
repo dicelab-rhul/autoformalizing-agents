@@ -5,7 +5,7 @@ import logging
 import os
 
 '''
-"Axelrod's tournament". In this experiment, 5 agents with autoformalised rules, one for each of 5 different games,
+"Axelrod's tournament". In this experiment, 5 agents with autoformalized rules, one for each of 5 different games,
 are loaded. Then, copies of each agent play against each other, using different predefined strategies. The results 
 of this tournament show which strategy is on average the most effective for each game. 
 '''
@@ -42,7 +42,7 @@ def main():
 		winners = tournament.get_winners()
 
 		exp_dir = os.path.join("LOGS", experiment_name)
-		agent_name = agent.split(os.sep)[-1][:-5]
+		agent_name = agent
 		log_tournament(experiment_dir=exp_dir, tournament=tournament, tournament_name=agent_name)
 		# Print winners
 		print("Winners are:")

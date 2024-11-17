@@ -165,4 +165,4 @@ Here is a description of a different game and a strategy:
 
 {game_description}
 
-Produce game-specific predicates for the described game and predicates for the described strategy. Implement all logic necessary for using the code to actually play the game. Mark the beginning and end of the Prolog code with a '@'. Do not put any non-Prolog syntax between '@' characters.
+Produce game-specific predicates for the described game and predicates for the described strategy. Implement all logic necessary for using the code to actually play the game, including tracking the patterns and select predicate to select a move. Mark the beginning and end of the Prolog code with a '@'. Add instruction to use the program in a comment. Do not put any non-Prolog syntax between '@' characters.
