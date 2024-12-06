@@ -17,22 +17,6 @@ idxmember(I, L, El):-
 
 % Library for random strategy.
 
-/* Need a generic rounding predicate.
-
-- Number is the real number you want to round.
-- DecimalPlaces is the number of decimal places you want to round to.
-- RoundingFunction can be 'ceil' or 'floor'.
-
-Like rounding up in XL - here we use ceil(ing) as the name of the fn to call.
-?- round_to_decimal_places(2.345, 2, ceil, Result).
-Result = 2.35.
-
-Like rounding down in XL - here we use floor as the name of the fn to call.
-?- round_to_decimal_places(2.345, 2, floor, Result).
-Result = 2.34.
-
-*/
-
 round_to_decimal_places(Number, DecimalPlaces, RoundingFunction, RoundedNumber) :-
     Multiplier is 10^DecimalPlaces,            % Multiplier for the specified decimal places
     call(RoundingFunction, Number * Multiplier, Temp), % Apply the rounding function (ceil or floor)
