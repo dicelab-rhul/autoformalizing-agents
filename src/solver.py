@@ -84,7 +84,7 @@ class Solver:
 			# Step 4: Load and consult Prolog files in the Prolog solver
 			for temp_file_path, (label, _) in zip(temp_files, [("solver", solver_string), ("game", game_string),
 															   ("strategy", strategy)]):
-				if not self._consult_prolog_file(temp_file_path):
+				if not self.consult_prolog_file(temp_file_path):
 					logger.error(f"Failed to consult {label} from file {temp_file_path}")
 					correct = False
 					break
@@ -141,7 +141,7 @@ class Solver:
 				temp_files.append(temp_file.name)
 		return temp_files
 
-	def _consult_prolog_file(self, file_path: str) -> bool:
+	def consult_prolog_file(self, file_path: str) -> bool:
 		"""
 		Consult a Prolog file in the solver.
 
