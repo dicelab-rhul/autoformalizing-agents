@@ -7,7 +7,7 @@ bs_noncanonic_numbersv15.txt,3
 bs_noncanonic_numbersv17.txt,3
 bs_noncanonic_numbersv19.txt,3
 bs_noncanonic_numbersv3.txt,3
-bs_noncanonic_numbersv5.txt,0
+bs_noncanonic_numbersv5.txt,3
 bs_noncanonic_numbersv7.txt,3
 bs_noncanonic_numbersv9.txt,3
 hd_canoninc_numbers.txt,-10
@@ -25,7 +25,7 @@ mp_canonic_numbers.txt,0
 mp_noncanonic_numbers.txt,0
 mp_noncanonic_numbersv11.txt,-2
 mp_noncanonic_numbersv13.txt,-2
-mp_noncanonic_numbersv15.txt,6
+mp_noncanonic_numbersv15.txt,-4
 mp_noncanonic_numbersv17.txt,-4
 mp_noncanonic_numbersv19.txt,2
 mp_noncanonic_numbersv3.txt,-2
@@ -35,7 +35,7 @@ mp_noncanonic_numbersv9.txt,-10
 pd_canonic_numbers.txt,16
 pd_noncanonic_numbers.txt,18
 pd_noncanonic_numbersv11.txt,20
-pd_noncanonic_numbersv13.txt,3
+pd_noncanonic_numbersv13.txt,25
 pd_noncanonic_numbersv15.txt,19
 pd_noncanonic_numbersv17.txt,18
 pd_noncanonic_numbersv19.txt,18
@@ -51,6 +51,6 @@ sh_noncanonic_numbersv17.txt,11
 sh_noncanonic_numbersv19.txt,12
 sh_noncanonic_numbersv3.txt,10
 sh_noncanonic_numbersv5.txt,7
-sh_noncanonic_numbersv7.txt,6
+sh_noncanonic_numbersv7.txt,10
 sh_noncanonic_numbersv9.txt,14
 sh_noncanoninc_numbers.txt,6
