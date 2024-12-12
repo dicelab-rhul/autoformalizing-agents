@@ -8,12 +8,12 @@ A Python and Prolog-based tournament simulator that enables users to create, sim
 - 🚀 [Getting Started](#-getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
-- ⚙️ [Experiment Configuration](#-experiment-configuration)
-- 🗂️ [Project Structure](#-project-structure)
+- ⚙️ [Experiment Configuration](#%EF%B8%8F-experiment-configuration)
+- 🗂️ [Project Structure](#%EF%B8%8F-project-structure)
 - 📚 [Examples](#-examples)
-- 🛠️ [Built With](#-built-with)
+- 🛠️ [Built With](#%EF%B8%8F-built-with)
 - 👥 [Authors](#-authors)
-- 📝 [Citing This Work](#-citing-this-work)
+- 📝 [Citing This Work](#citing-this-work)
 
 ## ✨ Features
 
