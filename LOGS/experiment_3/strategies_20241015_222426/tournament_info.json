@@ -1,0 +1,24 @@
+{
+  "game_description": null,
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    32,
+    16,
+    24,
+    11,
+    20
+  ],
+  "winners_payoffs": [
+    [
+      "Xomuzi",
+      "anti-default-move",
+      32.0
+    ],
+    [
+      "Kakuju",
+      "anti-tit-for-tat",
+      16.0
+    ]
+  ]
+}

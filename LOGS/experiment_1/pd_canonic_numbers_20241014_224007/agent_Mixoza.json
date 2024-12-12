@@ -1,0 +1,21 @@
+{
+  "name": "Mixoza",
+  "strategy_name": "tit-for-tat",
+  "strategy": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+  "game_rules": "\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n:- discontiguous payoff/4.\n:- discontiguous opposite_move/2.\n\n% Specific predicates for the alternative Prisoner's Dilemma\n\n% Payoff matrix for the new Prisoner's Dilemma\npayoff('Confess', 'Confess', 5, 5).\npayoff('Silent', 'Confess', 10, 0).\npayoff('Confess', 'Silent', 0, 10).\npayoff('Silent', 'Silent', 1, 1).\n\n% Initial state\ninitial(s0).\n\n% What holds initially: who is a player, their role, and whether they can play\ninitially(player(suspect1), s0).\ninitially(player(suspect2), s0).\ninitially(role(suspect1, row), s0).\ninitially(role(suspect2, col), s0).\ninitially(control(suspect1), s0).\ninitially(control(suspect2), s0).\ninitially(default_move(_, 'Silent'), s0).\n\n% The legal moves that are possible for a player to choose\npossible(move(P, 'Confess'), S):- holds(player(P), S).\npossible(move(P, 'Silent'), S):- holds(player(P), S).\n\n% Moves that are opposites to each other\nopposite_move('Confess', 'Silent').\nopposite_move('Silent', 'Confess').\n",
+  "game_moves": [
+    "Silent",
+    "Confess"
+  ],
+  "game_players": [
+    "suspect1",
+    "suspect2"
+  ],
+  "status": "syntactic_error",
+  "moves": [],
+  "payoffs": [],
+  "total_payoff": 0,
+  "default_move": "Silent",
+  "trace_messages": [],
+  "attempts": 5
+}

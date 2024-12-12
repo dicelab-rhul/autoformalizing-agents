@@ -1,0 +1,21 @@
+{
+  "name": "Kiqaya",
+  "strategy_name": "tit-for-tat",
+  "strategy": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+  "game_rules": "\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n:- discontiguous opposite_move/2.\n\n/* Game specific predicates for the Logging Companies Game */\n\n% Payoff matrix for the Logging Companies Game\npayoff('NotSustainable', 'NotSustainable', 3, 3).\npayoff('Sustainable', 'NotSustainable', 0, 4).\npayoff('NotSustainable', 'Sustainable', 4, 0).\npayoff('Sustainable', 'Sustainable', 7, 7).\n\n% Initial state\ninitial(s0).\n\n% What holds initially: who is a player, their role, and whether they can play.\ninitially(player(c1), s0).\ninitially(player(c2), s0).\ninitially(role(c1,row), s0).\ninitially(role(c2,col), s0).\ninitially(control(c1), s0).\ninitially(control(c2), s0).\ninitially(default_move(_, 'Sustainable'), s0).\n\n% A legal move is a possible move where the player has control (is its turn).\nlegal(move(P, M), S):- possible(move(P, M), S), holds(control(P), S).\n\n% What is possible for a player to choose\npossible(move(P,'NotSustainable'), S):- holds(player(P), S).\npossible(move(P,'Sustainable'), S):- holds(player(P), S).\n\n% Moves that are opposite to each other.\nopposite_move('Sustainable', 'NotSustainable').\nopposite_move('NotSustainable', 'Sustainable').\n\n% The effects of a move: if P has chosen M, then in the next state this is what they did.\neffect(did(P, M), move(P, M), _S).\n\n% The effects of a move: once a move is made, the player loses control, i.e., cannot move anymore.\nabnormal(control(P), move(P, _M), _S).\n",
+  "game_moves": [
+    "NotSustainable",
+    "Sustainable"
+  ],
+  "game_players": [
+    "c1",
+    "c2"
+  ],
+  "status": "syntactic_error",
+  "moves": [],
+  "payoffs": [],
+  "total_payoff": 0,
+  "default_move": "Sustainable",
+  "trace_messages": [],
+  "attempts": 5
+}

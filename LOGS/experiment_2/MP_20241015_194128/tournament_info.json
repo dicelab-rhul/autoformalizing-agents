@@ -1,0 +1,18 @@
+{
+  "game_description": null,
+  "num_agents": 6,
+  "num_rounds": 10,
+  "target_payoffs": [],
+  "winners_payoffs": [
+    [
+      "Gurifu",
+      "best_response",
+      48.0
+    ],
+    [
+      "Jovuri",
+      "tit-for-tat",
+      48.0
+    ]
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "game_description": "A boutique digital marketing agency and a huge marketing firm each independently decide whether to focus their efforts on a viral social media campaign or a high-profile influencer partnership. If both agencies choose the same strategy, the boutique agency wins 4 points, and the large firm loses 4 points, with the boutique agency being viewed as trendier and more in touch with cutting-edge strategies. If their choices differ, the large firm wins 6 points, and the boutique agency loses 6 points due to the large firm\u2019s broader reach and more substantial influence.",
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    -4,
+    -4,
+    -4,
+    -4,
+    -4
+  ],
+  "winners_payoffs": [
+    [
+      "Musevo",
+      "tit-for-tat",
+      -4.0
+    ],
+    [
+      "Reqote",
+      "tit-for-tat",
+      -4.0
+    ],
+    [
+      "Vehogu",
+      "tit-for-tat",
+      -4.0
+    ],
+    [
+      "Liloge",
+      "tit-for-tat",
+      -4.0
+    ]
+  ]
+}

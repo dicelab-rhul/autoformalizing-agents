@@ -1,0 +1,39 @@
+{
+  "game_description": "Two generals are planning the next move in a military operation. One prefers the \u201cNorth Ridge\u201d route for its defensibility, while the other favors the \u201cSouth Valley\u201d for its speed. Both understand that coordinating their troops is more crucial than going solo. If they take the \u201cNorth Ridge\u201d route, the general advocating for it gets 2 points, and the South Valley proponent gets 1 point. If they opt for the \u201cSouth Valley,\u201d the supporter of this route gets 2 points, and the North Ridge advocate gets 1 point. If they execute different plans, both strategies fail, and they earn 0 points each.",
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    3,
+    3,
+    3,
+    3,
+    3
+  ],
+  "winners_payoffs": [
+    [
+      "Qikije",
+      "tit-for-tat",
+      3.0
+    ],
+    [
+      "Qukiko",
+      "tit-for-tat",
+      3.0
+    ],
+    [
+      "Mazeti",
+      "tit-for-tat",
+      3.0
+    ],
+    [
+      "Ziqiqo",
+      "tit-for-tat",
+      3.0
+    ],
+    [
+      "Musivu",
+      "tit-for-tat",
+      3.0
+    ]
+  ]
+}

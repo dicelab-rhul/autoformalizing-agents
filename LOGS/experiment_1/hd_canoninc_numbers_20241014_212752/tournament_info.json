@@ -1,0 +1,39 @@
+{
+  "game_description": "Two drivers are on a collision course, each deciding whether to swerve (compromise) or keep going straight (hold firm). If both swerve, they avoid the crash and each gets a payoff of 0 units. If one swerves and the other goes straight, the one who swerves is considered a \"chicken\" and gets -1 unit, while the other gets 1 unit for holding firm. If both go straight, they crash, resulting in a large negative payoff of -10 units for each. This situation, known as the Chicken Game, highlights the risks of brinkmanship and the potential for mutual disaster.\n",
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    -10,
+    -10,
+    -10,
+    -10,
+    -10
+  ],
+  "winners_payoffs": [
+    [
+      "Niyihe",
+      "tit-for-tat",
+      -10.0
+    ],
+    [
+      "Hizeyo",
+      "tit-for-tat",
+      -10.0
+    ],
+    [
+      "Lenaxe",
+      "tit-for-tat",
+      -10.0
+    ],
+    [
+      "Goloka",
+      "tit-for-tat",
+      -10.0
+    ],
+    [
+      "Qerajo",
+      "tit-for-tat",
+      -10.0
+    ]
+  ]
+}

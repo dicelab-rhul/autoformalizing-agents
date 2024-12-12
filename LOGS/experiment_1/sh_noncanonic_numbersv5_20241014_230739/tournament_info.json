@@ -1,0 +1,34 @@
+{
+  "game_description": "Two nations contemplate signing a mutual defense pact against potential threats. If both sign, they greatly enhance their security for a gain of 4 points each. If one signs and the other does not, the signer is left vulnerable and gains nothing (0 points), while the nonsigner achieves a moderate security benefit worth 2 points owing to reduced regional tensions. If neither sign, they both maintain a minimal security level worth 1 point each.",
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    7,
+    7,
+    7,
+    7,
+    7
+  ],
+  "winners_payoffs": [
+    [
+      "Zukuhi",
+      "tit-for-tat",
+      7.0
+    ],
+    [
+      "Husuto",
+      "tit-for-tat",
+      7.0
+    ],
+    [
+      "Mokola",
+      "tit-for-tat",
+      7.0
+    ],
+    [
+      "Qopahu",
+      "tit-for-tat",
+      7.0
+    ]
+  ]
+}

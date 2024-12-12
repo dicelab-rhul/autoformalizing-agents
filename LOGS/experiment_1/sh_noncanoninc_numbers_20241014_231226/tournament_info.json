@@ -1,0 +1,34 @@
+{
+  "game_description": "Two chefs in a cooking show work on a competition dish. They can either collaborate to create an innovative dish or work independently on safer, less ambitious dishes. If both collaborate, they achieve a high reward, each receiving a promotion worth 3 points. If one collaborates while the other works independently, the collaborator gains nothing (0 points) and the independent worker earns a moderate reward (2 points). If both work independently, they each receive a low reward of 1 point.\n",
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    6,
+    6,
+    6,
+    6,
+    6
+  ],
+  "winners_payoffs": [
+    [
+      "Purole",
+      "tit-for-tat",
+      6.0
+    ],
+    [
+      "Dilaqo",
+      "tit-for-tat",
+      6.0
+    ],
+    [
+      "Wokexo",
+      "tit-for-tat",
+      6.0
+    ],
+    [
+      "Jobaka",
+      "tit-for-tat",
+      6.0
+    ]
+  ]
+}

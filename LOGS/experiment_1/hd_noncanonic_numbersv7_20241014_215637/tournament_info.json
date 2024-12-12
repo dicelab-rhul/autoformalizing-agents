@@ -1,0 +1,39 @@
+{
+  "game_description": "Two competing companies are launching new products. Each can either go for aggressive advertising or moderate advertising. If both go moderate, they maintain market share, each earning 0 points. If one goes aggressive while the other goes moderate, the aggressive advertiser captures more market share, earning 4 points, and the moderate advertiser loses market share, earning \u20134 points. If both go aggressive, they overspend on advertising, negating profits and each earning \u201320 points.",
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    -20,
+    -20,
+    -20,
+    -20,
+    -20
+  ],
+  "winners_payoffs": [
+    [
+      "Lequwo",
+      "tit-for-tat",
+      -20.0
+    ],
+    [
+      "Kilupe",
+      "tit-for-tat",
+      -20.0
+    ],
+    [
+      "Qafune",
+      "tit-for-tat",
+      -20.0
+    ],
+    [
+      "Fupowi",
+      "tit-for-tat",
+      -20.0
+    ],
+    [
+      "Dejoli",
+      "tit-for-tat",
+      -20.0
+    ]
+  ]
+}

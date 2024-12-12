@@ -1,0 +1,39 @@
+{
+  "game_description": "A couple is planning a weekend getaway but can't decide whether to go to the mountains or the beach. One partner prefers the mountains for hiking, while the other prefers the beach for relaxation. They both agree that going together is more important than going alone. If they pick the mountains, the mountain lover gets 2 points, and the beach lover gets 1 point. If they choose the beach, the beach lover scores 2 points, and the mountain enthusiast scores 1 point. If they don't agree, they stay home and both get 0 points.",
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    3.0,
+    3.0,
+    3.0,
+    3.0,
+    3.0
+  ],
+    "winners_payoffs": [
+    [
+      "Ciwaci",
+      "tit-for-tat",
+      3.0
+    ],
+    [
+      "Kegulu",
+      "tit-for-tat",
+      3.0
+    ],
+    [
+      "Mahaju",
+      "tit-for-tat",
+      3.0
+    ],
+    [
+      "Ridufi",
+      "tit-for-tat",
+      3.0
+    ],
+    [
+      "Zemejo",
+      "tit-for-tat",
+      3.0
+    ]
+  ]
+}

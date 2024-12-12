@@ -1,0 +1,29 @@
+{
+  "game_description": "Two researchers contemplate collaborating on a groundbreaking study. If both collaborate, they produce a high-impact paper, earning them substantial recognition worth 8 points each. If one collaborates and the other focuses on their own projects, the collaborator gains nothing (0 points) due to divided efforts, while the solo researcher reaps moderate individual success worth 5 points. If both choose to work independently, they each publish less significant papers, earning 3 points each.",
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    16,
+    16,
+    16,
+    16,
+    16
+  ],
+  "winners_payoffs": [
+    [
+      "Kakase",
+      "tit-for-tat",
+      16.0
+    ],
+    [
+      "Qihebu",
+      "tit-for-tat",
+      16.0
+    ],
+    [
+      "Noduki",
+      "tit-for-tat",
+      16.0
+    ]
+  ]
+}

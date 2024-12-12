@@ -1,0 +1,39 @@
+{
+  "game_description": "A small sports apparel company and a large multinational sports brand each independently decide whether to sponsor a soccer tournament or a basketball tournament. If both decide on the same sport, the small company wins 3 points, and the large brand loses 3 points due to the street credibility gained by the smaller company. If their choices differ, the large brand wins 5 points, and the small company loses 5 points, as the large brand can overshadow the small company's efforts with its larger budget and visibility.",
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    -4.0,
+    -4.0,
+    -4.0,
+    -4.0,
+    -4.0
+  ],
+  "winners_payoffs": [
+    [
+      "Copavu",
+      "tit-for-tat",
+      -4.0
+    ],
+    [
+      "Demexi",
+      "tit-for-tat",
+      -4.0
+    ],
+    [
+      "Gowene",
+      "tit-for-tat",
+      -4.0
+    ],
+    [
+      "Habina",
+      "tit-for-tat",
+      -4.0
+    ],
+    [
+      "Pejege",
+      "tit-for-tat",
+      -4.0
+    ]
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "game_description": "A local coffee shop and a large coffee chain both independently decide whether to launch a new signature latte or a new cold brew. If both shops release the same new drink, the local coffee shop wins 2 points, and the large coffee chain loses 2 points due to the novelty appeal boosting the smaller shop's reputation. If their choices differ, the large coffee chain wins 3 points, and the local coffee shop loses 3 points since the larger chain can dominate the market with its more extensive advertising power.",
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    -2,
+    -2,
+    -2,
+    -2,
+    -2
+  ],
+  "winners_payoffs": [
+    [
+      "Moheba",
+      "tit-for-tat",
+      -2.0
+    ],
+    [
+      "Rupuca",
+      "tit-for-tat",
+      -2.0
+    ],
+    [
+      "Zokula",
+      "tit-for-tat",
+      -2.0
+    ]
+  ]
+}

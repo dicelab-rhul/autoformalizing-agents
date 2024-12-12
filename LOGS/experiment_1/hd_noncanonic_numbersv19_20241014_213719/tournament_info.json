@@ -1,0 +1,39 @@
+{
+  "game_description": "Two neighboring cities, Rivertown and Hillview, that share a limited water reservoir. Each city can either prioritize their own water needs or agree to ration water usage for mutual benefit. If both cities agree to ration their water use, they each experience a slight inconvenience but preserve the water supply, resulting in a payoff of 0 for each. If one city prioritizes its own needs while the other agrees to ration, the prioritizing city enjoys full access to the reservoir (4 points), while the rationing city faces water shortages, incurring a -4 point payoff. If both cities prioritize their own needs and drain the reservoir quickly, they face a severe water crisis, each receiving a payoff of -10 due to the shared consequences of depleted resources.\n",
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    -10,
+    -10,
+    -10,
+    -10,
+    -10
+  ],
+  "winners_payoffs": [
+    [
+      "Litoku",
+      "tit-for-tat",
+      -10.0
+    ],
+    [
+      "Beneca",
+      "tit-for-tat",
+      -10.0
+    ],
+    [
+      "Jigihi",
+      "tit-for-tat",
+      -10.0
+    ],
+    [
+      "Zudepu",
+      "tit-for-tat",
+      -10.0
+    ],
+    [
+      "Bofote",
+      "tit-for-tat",
+      -10.0
+    ]
+  ]
+}

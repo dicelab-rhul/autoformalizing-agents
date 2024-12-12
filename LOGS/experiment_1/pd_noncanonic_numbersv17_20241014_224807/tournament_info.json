@@ -1,0 +1,39 @@
+{
+  "game_description": "Two farmers facing a drought must decide whether to collaborate on resource-sharing for water. If both collaborate, they sustain their crops moderately well, each receiving a payoff of 5. If one collaborates while the other hoards water, the hoarder gains a significant yield advantage, receiving a payoff of 8, while the collaborator suffers a reduced yield, getting a payoff of 2. If neither collaborates, both face harsh consequences with minimal yield, each receiving a payoff of 3.",
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    18,
+    18,
+    18,
+    18,
+    18
+  ],
+  "winners_payoffs": [
+    [
+      "Fefoja",
+      "tit-for-tat",
+      18.0
+    ],
+    [
+      "Zupeha",
+      "tit-for-tat",
+      18.0
+    ],
+    [
+      "Helifi",
+      "tit-for-tat",
+      18.0
+    ],
+    [
+      "Zipotu",
+      "tit-for-tat",
+      18.0
+    ],
+    [
+      "Lacefo",
+      "tit-for-tat",
+      18.0
+    ]
+  ]
+}

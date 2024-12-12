@@ -1,0 +1,31 @@
+{
+  "name": "Kahobe",
+  "strategy_name": "tit-for-tat",
+  "strategy": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+  "game_rules": "\n% Discontiguous declaration for SWI Prolog\n:- discontiguous payoff/6.\n:- discontiguous initially/2.\n:- discontiguous possible/3.\n:- discontiguous final/1.\n:- discontiguous legal/2.\n:- discontiguous effect/3.\n:- discontiguous abnormal/3.\n:- discontiguous finally/2.\n\n% Domain-specific predicates for the new tech game\n\n% Payoff matrix for the tech game\npayoff('smart_home', 'smart_home', 3, -3).\npayoff('wearable_gadget', 'wearable_gadget', 3, -3).\npayoff('smart_home', 'wearable_gadget', -4, 4).\npayoff('wearable_gadget', 'smart_home', -4, 4).\n\n% Initial state\ninitial(s0).\n% What holds initially: define players, their roles, and control\ninitially(player(startup), s0).\ninitially(player(giant), s0).\ninitially(role(startup, row), s0).\ninitially(role(giant, col), s0).\ninitially(control(startup), s0).\ninitially(control(giant), s0).\ninitially(default_move(_, 'smart_home'), s0).\n\n% When a state is final\nfinal(do(move(_Giant, _M2), do(move(_Startup, _M1), S))) :- initial(S).\n\n% A legal move is a possible move where the player has control\nlegal(move(P, M), S) :- possible(move(P, M), S), holds(control(P), S).\n\n% What is possible for a player to choose\npossible(move(P, 'smart_home'), S) :- holds(player(P), S).\npossible(move(P, 'wearable_gadget'), S) :- holds(player(P), S).\n\n% Moves that are opposite to each other\nopposite_move('smart_home', 'wearable_gadget').\nopposite_move('wearable_gadget', 'smart_home').\n\n% The effects of a move: if P has chosen M, then in the next state this\n% is what they did.\neffect(did(P, M), move(P, M), _S).\n\n% The effects of a move: once a move is made, the player loses control\nabnormal(control(P), move(P, _M), _S).\n\n% What holds finally: the outcome with players, Moves, and Utilities.\nfinally(outcome(P1, M1, U1, P2, M2, U2), S) :-\n    final(S),\n    holds(role(P1, row), S),\n    holds(did(P1, M1), S),\n    holds(role(P2, col), S),\n    holds(did(P2, M2), S),\n    payoff(M1, M2, U1, U2).\n\n% Goals achieved by the players\nfinally(goal(P1, U1), S) :-\n    finally(outcome(P1, _, U1, _, _, _), S).\n\nfinally(goal(P2, U2), S) :-\n    finally(outcome(_, _, _, P2, _, U2), S).\n",
+  "game_moves": [
+    "smart_home",
+    "wearable_gadget"
+  ],
+  "game_players": [
+    "startup",
+    "giant"
+  ],
+  "status": "correct",
+  "moves": [
+    "smart_home",
+    "smart_home",
+    "wearable_gadget",
+    "wearable_gadget"
+  ],
+  "payoffs": [
+    3.0,
+    -4.0,
+    3.0,
+    -4.0
+  ],
+  "total_payoff": -2.0,
+  "default_move": "smart_home",
+  "trace_messages": [],
+  "attempts": 1
+}

@@ -1,0 +1,39 @@
+{
+  "game_description": "Two friends are deciding whether to go shopping at Elegance Boutique or Chic Couture. One prefers the Elegance Boutique, and the other prefers the Chic Couture, but both prefer shopping together over going alone. If they both choose the Elegance Boutique, the Elegance Boutique enthusiast gets 2 points, and the Chic Couture lover gets 1 point. If they both choose the Chic Couture, the Chic Couture lover gets 2 points, and the Elegance Boutique enthusiast gets 1 point. If they choose different shops, they both get 0 points.\n",
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    3,
+    3,
+    3,
+    3,
+    3
+  ],
+  "winners_payoffs": [
+    [
+      "Goziro",
+      "tit-for-tat",
+      3.0
+    ],
+    [
+      "Lekeje",
+      "tit-for-tat",
+      3.0
+    ],
+    [
+      "Pexehe",
+      "tit-for-tat",
+      3.0
+    ],
+    [
+      "Suqipu",
+      "tit-for-tat",
+      3.0
+    ],
+    [
+      "Pabatu",
+      "tit-for-tat",
+      3.0
+    ]
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "game_description": "Two military commanders must decide whether to focus on offense or defense. If both choose defense, they secure their positions with 0 points. If one goes on offense and the other remains defensive, the offensive commander gains territory and resources worth 5 points, while the defensive commander suffers losses worth -5 points. If both go on offense, they exhaust their resources without significant gain, resulting in each receiving -15 points.",
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    -15,
+    -15,
+    -15,
+    -15,
+    -15
+  ],
+  "winners_payoffs": [
+    [
+      "Basuyo",
+      "tit-for-tat",
+      -15.0
+    ],
+    [
+      "Tomene",
+      "tit-for-tat",
+      -15.0
+    ],
+    [
+      "Vaxiri",
+      "tit-for-tat",
+      -15.0
+    ],
+    [
+      "Bopoye",
+      "tit-for-tat",
+      -15.0
+    ]
+  ]
+}

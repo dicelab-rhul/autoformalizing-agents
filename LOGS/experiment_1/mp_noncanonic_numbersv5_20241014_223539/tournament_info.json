@@ -1,0 +1,34 @@
+{
+  "game_description": "Two political candidates in a major election must independently decide whether to focus their campaign on economic policies or social issues. If both candidates choose the same focus, Candidate A, the underdog, gains an additional 5% in voter support, while Candidate B, the frontrunner, loses 5%. If their campaign focuses differ, Candidate B gains 4% in voter support, and Candidate A loses 4%, as the underdog struggles to differentiate themselves effectively.",
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    2,
+    2,
+    2,
+    2,
+    2
+  ],
+  "winners_payoffs": [
+    [
+      "Xerawe",
+      "tit-for-tat",
+      2.0
+    ],
+    [
+      "Kumibi",
+      "tit-for-tat",
+      2.0
+    ],
+    [
+      "Savuwi",
+      "tit-for-tat",
+      2.0
+    ],
+    [
+      "Caxuhu",
+      "tit-for-tat",
+      2.0
+    ]
+  ]
+}

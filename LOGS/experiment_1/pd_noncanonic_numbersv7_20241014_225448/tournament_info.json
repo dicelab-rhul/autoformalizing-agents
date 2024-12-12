@@ -1,0 +1,29 @@
+{
+  "game_description": "Two nations in a cold war must decide whether to continue building nuclear arsenals or to mutually disarm. If both build arsenals, they maintain a deterrent but incur huge military costs, each receiving a payoff of 4. If one disarms while the other builds an arsenal, the disarmer risks vulnerability, receiving a payoff of 1, while the builder gains a strategic upper hand, yielding a payoff of 7. If both disarm, they reduce the risk of nuclear conflict and allocate resources to other areas, each receiving a payoff of 6.",
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    18,
+    18,
+    18,
+    18,
+    18
+  ],
+  "winners_payoffs": [
+    [
+      "Vedero",
+      "tit-for-tat",
+      18.0
+    ],
+    [
+      "Netika",
+      "tit-for-tat",
+      18.0
+    ],
+    [
+      "Hazaca",
+      "tit-for-tat",
+      18.0
+    ]
+  ]
+}

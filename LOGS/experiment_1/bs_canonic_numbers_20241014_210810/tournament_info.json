@@ -1,0 +1,39 @@
+{
+  "game_description": "A couple is deciding how to spend their evening together. One prefers to go to the opera and the other prefers to go to a football game, but both prefer to be together rather than apart. If they both choose the opera, the opera lover gets a payoff of 2 units of happiness, and the football lover gets 1 unit. If they both choose the football game, the football lover gets 2 units of happiness, and the opera lover gets 1 unit. If they choose different events, they both get 0 units of happiness. This situation, known as the Battle of the Sexes, reflects the challenges of coordinating when preferences differ.\n",
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    3,
+    3,
+    3,
+    3,
+    3
+  ],
+  "winners_payoffs": [
+    [
+      "Qihono",
+      "tit-for-tat",
+      3.0
+    ],
+    [
+      "Herude",
+      "tit-for-tat",
+      3.0
+    ],
+    [
+      "Zaxini",
+      "tit-for-tat",
+      3.0
+    ],
+    [
+      "Rugifi",
+      "tit-for-tat",
+      3.0
+    ],
+    [
+      "Wavohe",
+      "tit-for-tat",
+      3.0
+    ]
+  ]
+}

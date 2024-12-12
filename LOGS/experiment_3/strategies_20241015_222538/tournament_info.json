@@ -1,0 +1,24 @@
+{
+  "game_description": null,
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    32,
+    16,
+    24,
+    11,
+    20
+  ],
+  "winners_payoffs": [
+    [
+      "Hiredu",
+      "anti-default-move",
+      32.0
+    ],
+    [
+      "Kinole",
+      "anti-tit-for-tat",
+      16.0
+    ]
+  ]
+}

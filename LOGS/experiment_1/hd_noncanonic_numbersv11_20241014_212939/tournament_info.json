@@ -1,0 +1,39 @@
+{
+  "game_description": "Two neighboring farmers decide on water sharing for their crops. Each can either share water equitably or try to take more. If both share equitably, they have sufficient water, each gaining 0 points. If one tries to take more while the other shares equitably, the taker gains surplus crop yield worth 2 points, and the sharer suffers a drought loss worth -2 points. If both try to take more, they deplete the water source, leading to crop failure, and each gets -10 points.",
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    -10,
+    -10,
+    -10,
+    -10,
+    -10
+  ],
+  "winners_payoffs": [
+    [
+      "Cipiju",
+      "tit-for-tat",
+      -10.0
+    ],
+    [
+      "Gohune",
+      "tit-for-tat",
+      -10.0
+    ],
+    [
+      "Molebe",
+      "tit-for-tat",
+      -10.0
+    ],
+    [
+      "Zacama",
+      "tit-for-tat",
+      -10.0
+    ],
+    [
+      "Qazuzi",
+      "tit-for-tat",
+      -10.0
+    ]
+  ]
+}

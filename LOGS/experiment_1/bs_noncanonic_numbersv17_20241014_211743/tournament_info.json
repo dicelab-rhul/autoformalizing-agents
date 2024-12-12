@@ -1,0 +1,29 @@
+{
+  "game_description": "Two co-founders, Jordan and Casey, are deciding how to celebrate a major business milestone with their team. Jordan prefers a formal dinner to emphasize professionalism, while Casey prefers a relaxed outdoor picnic to encourage team bonding. Both agree that celebrating together as a team is the top priority. If they choose the formal dinner, Jordan feels it reflects the milestone well and gains 2 points, while Casey, although not enthusiastic, is glad the team is together, receiving 1 point. If they go for the picnic, Casey feels it\u2019s a better fit for team spirit and earns 2 points, while Jordan, less excited but content to celebrate together, receives 1 point. If they can\u2019t agree and hold separate events, the celebration loses its intended unity, and both receive 0 points.\n",
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    3,
+    3,
+    3,
+    3,
+    3
+  ],
+  "winners_payoffs": [
+    [
+      "Wavitu",
+      "tit-for-tat",
+      3.0
+    ],
+    [
+      "Foxopo",
+      "tit-for-tat",
+      3.0
+    ],
+    [
+      "Segewo",
+      "tit-for-tat",
+      3.0
+    ]
+  ]
+}

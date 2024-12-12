@@ -1,0 +1,21 @@
+{
+  "name": "Yufuje",
+  "strategy_name": "tit-for-tat",
+  "strategy": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+  "game_rules": "  \n:- discontiguous initially/2.\n:- discontiguous payoff/6.\n\n% Game specific predicates for the Marketing Strategy Game\n\n% Payoff matrix for Marketing Strategy Game\npayoff('Viral', 'Viral', 4, -4).\npayoff('Influencer', 'Influencer', 4, -4).\npayoff('Viral', 'Influencer', -6, 6).\npayoff('Influencer', 'Viral', -6, 6).\n\n% Initial state\ninitial(s0).\n\n% What holds initially: who is a player, their role, and whether they can play.\ninitially(player(boutique), s0).\ninitially(player(large_firm), s0).\ninitially(role(boutique,row), s0).\ninitially(role(large_firm,col), s0).\ninitially(control(boutique), s0).\ninitially(control(large_firm), s0).\ninitially(default_move(_, 'Viral'), s0).\n\n% Moves that are opposite to each other.\nopposite_move('Viral', 'Influencer').\nopposite_move('Influencer', 'Viral').\n\n% What is possible for a player to choose\npossible(move(P, 'Viral'), S) :- holds(player(P), S).\npossible(move(P, 'Influencer'), S) :- holds(player(P), S).\n\n",
+  "game_moves": [
+    "Viral",
+    "Influencer"
+  ],
+  "game_players": [
+    "boutique",
+    "large_firm"
+  ],
+  "status": "syntactic_error",
+  "moves": [],
+  "payoffs": [],
+  "total_payoff": 0,
+  "default_move": "Viral",
+  "trace_messages": [],
+  "attempts": 5
+}

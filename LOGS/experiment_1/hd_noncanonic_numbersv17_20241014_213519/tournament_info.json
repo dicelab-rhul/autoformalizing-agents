@@ -1,0 +1,39 @@
+{
+  "game_description": "Two countries are negotiating CO2 emission reductions. Each can either stick to high emissions or agree to cuts. If both agree to cuts, environmental benefits are neutral, and they receive 0 points. If one sticks to high emissions while the other agrees to cuts, the high-emission country gains economic advantages worth 4 points, while the cutting country faces economic drawbacks worth -4 points. If both stick to high emissions, global warming effects worsen, and each suffers -10 points.",
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    -10,
+    -10,
+    -10,
+    -10,
+    -10
+  ],
+  "winners_payoffs": [
+    [
+      "Volatu",
+      "tit-for-tat",
+      -10.0
+    ],
+    [
+      "Zugeyi",
+      "tit-for-tat",
+      -10.0
+    ],
+    [
+      "Dejoki",
+      "tit-for-tat",
+      -10.0
+    ],
+    [
+      "Jujeda",
+      "tit-for-tat",
+      -10.0
+    ],
+    [
+      "Xeguga",
+      "tit-for-tat",
+      -10.0
+    ]
+  ]
+}

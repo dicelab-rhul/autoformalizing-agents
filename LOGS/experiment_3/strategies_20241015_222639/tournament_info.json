@@ -1,0 +1,34 @@
+{
+  "game_description": null,
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    32,
+    16,
+    24,
+    11,
+    20
+  ],
+  "winners_payoffs": [
+    [
+      "Zoqibe",
+      "anti-default-move",
+      32.0
+    ],
+    [
+      "Deyilo",
+      "anti-tit-for-tat",
+      16.0
+    ],
+    [
+      "Judusa",
+      "best_response",
+      24.0
+    ],
+    [
+      "Gofizi",
+      "default_move",
+      11.0
+    ]
+  ]
+}

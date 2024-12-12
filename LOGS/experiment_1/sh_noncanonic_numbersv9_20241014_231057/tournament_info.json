@@ -1,0 +1,34 @@
+{
+  "game_description": "Two logging companies have the option to enforce sustainable practices to preserve the forest. If both adopt these practices, the forest thrives, providing long-term benefits worth 7 points each. If one adopts sustainable practices and the other does not, the sustainably operating company faces higher costs and gains nothing (0 points), while the non-sustainable company benefits from immediate profits worth 4 points. If neither uses sustainable practices, they overexploit the forest, securing short-term gains of 3 points each but risking long-term depletion.",
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    14,
+    14,
+    14,
+    14,
+    14
+  ],
+  "winners_payoffs": [
+    [
+      "Qapake",
+      "tit-for-tat",
+      14.0
+    ],
+    [
+      "Newata",
+      "tit-for-tat",
+      14.0
+    ],
+    [
+      "Korasa",
+      "tit-for-tat",
+      14.0
+    ],
+    [
+      "Xuyoce",
+      "tit-for-tat",
+      14.0
+    ]
+  ]
+}

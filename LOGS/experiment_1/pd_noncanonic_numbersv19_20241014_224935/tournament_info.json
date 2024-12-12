@@ -1,0 +1,34 @@
+{
+  "game_description": "Two rival tech companies, AlphaTech and BetaCorp, are developing a cutting-edge AI product that could dominate the market. Each must decide whether to continue investing heavily in proprietary development or to collaborate on a shared standard that would benefit the industry and reduce costs. If both companies continue their separate, costly R&D efforts, they secure competitive advantages but at the expense of immense financial resources, each receiving a payoff of 4. If one company continues heavy investment while the other opts for collaboration, the collaborator risks falling behind, receiving a payoff of 1, while the competitor gains a strong market position, yielding a payoff of 7. If both choose to collaborate, they reduce development costs and share resources, each receiving a payoff of 6, benefiting from shared success and a broader, standardized market.\n",
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    18,
+    18,
+    18,
+    18,
+    18
+  ],
+  "winners_payoffs": [
+    [
+      "Reqoqe",
+      "tit-for-tat",
+      18.0
+    ],
+    [
+      "Yocava",
+      "tit-for-tat",
+      18.0
+    ],
+    [
+      "Puhepa",
+      "tit-for-tat",
+      18.0
+    ],
+    [
+      "Cotufu",
+      "tit-for-tat",
+      18.0
+    ]
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "game_description": "Two companies in a competitive market consider forming a strategic alliance to develop a groundbreaking product. If both commit to the partnership, they each gain a significant market share increase worth 5 points. If one commits while the other sticks to solo development, the committed company risks wasted resources with a payoff of 0 points, while the solo developer gains a moderate edge worth 3 points. If both continue independently, they each receive a small market presence improvement worth 2 points.",
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    10,
+    10,
+    10,
+    10,
+    10
+  ],
+  "winners_payoffs": [
+    [
+      "Ceqoba",
+      "tit-for-tat",
+      10.0
+    ],
+    [
+      "Veroxi",
+      "tit-for-tat",
+      10.0
+    ],
+    [
+      "Rabogi",
+      "tit-for-tat",
+      10.0
+    ],
+    [
+      "Liqude",
+      "tit-for-tat",
+      10.0
+    ],
+    [
+      "Jurume",
+      "tit-for-tat",
+      10.0
+    ]
+  ]
+}

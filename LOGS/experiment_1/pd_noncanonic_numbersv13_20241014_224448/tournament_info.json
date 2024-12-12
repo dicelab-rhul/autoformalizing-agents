@@ -1,0 +1,39 @@
+{
+  "game_description": "Two neighboring countries must decide whether to implement strict pollution controls. If both implement controls, they incur costs but significantly benefit the environment, each receiving a payoff of 7. If one implements controls and the other doesn't, the non-implementer saves costs and attracts businesses, getting a payoff of 10, while the implementer faces higher costs alone, receiving a payoff of 3. If neither implements controls, they save costs but suffer from collective pollution, each receiving a payoff of 5.",
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    25,
+    25,
+    25,
+    25,
+    25
+  ],
+    "winners_payoffs": [
+    [
+      "Likipa",
+      "tit-for-tat",
+      25.0
+    ],
+    [
+      "Pedura",
+      "tit-for-tat",
+      25.0
+    ],
+    [
+      "Sadase",
+      "tit-for-tat",
+      25.0
+    ],
+    [
+      "Saduva",
+      "tit-for-tat",
+      25.0
+    ], 
+    [
+      "Zagugo",
+      "tit-for-tat",
+      25.0
+    ]
+  ]
+}

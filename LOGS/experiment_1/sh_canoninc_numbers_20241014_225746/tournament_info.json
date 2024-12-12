@@ -1,0 +1,39 @@
+{
+  "game_description": "Two hunters are out in the woods and must decide whether to hunt a stag together (collaborate) or hunt a hare alone (act independently). If both collaborate to hunt the stag, they each receive a large reward of 3 units of meat. If one collaborates while the other hunts a hare, the collaborator gets nothing (0 units) and the independent hunter gets a moderate reward of 2 units. If both hunt hares independently, they each receive a small reward of 1 unit. This situation, known as the Stag Hunt, illustrates the tension between mutual cooperation for a higher reward and individual action for a guaranteed but lower reward.\n",
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    6,
+    6,
+    6,
+    6,
+    6
+  ],
+  "winners_payoffs": [
+    [
+      "Sevafa",
+      "tit-for-tat",
+      6.0
+    ],
+    [
+      "Gohuxe",
+      "tit-for-tat",
+      6.0
+    ],
+    [
+      "Nabiha",
+      "tit-for-tat",
+      6.0
+    ],
+    [
+      "Lamene",
+      "tit-for-tat",
+      6.0
+    ],
+    [
+      "Giliwe",
+      "tit-for-tat",
+      6.0
+    ]
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "game_description": "Two tech companies consider pooling resources to develop a cutting-edge technology. If both agree, they achieve a major technological breakthrough, earning 10 points each. If one commits and the other pulls back, the committed company sees its investment go to waste with 0 points, while the non-committed gains a moderate technological advancement worth 5 points from focusing on easier projects. If both avoid the risk and work independently, they come up with incremental improvements worth 4 points each.",
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    19,
+    19,
+    19,
+    19,
+    19
+  ],
+  "winners_payoffs": [
+    [
+      "Qahudi",
+      "tit-for-tat",
+      19.0
+    ],
+    [
+      "Gewati",
+      "tit-for-tat",
+      19.0
+    ],
+    [
+      "Jefoya",
+      "tit-for-tat",
+      19.0
+    ],
+    [
+      "Zowune",
+      "tit-for-tat",
+      19.0
+    ],
+    [
+      "Nifuhu",
+      "tit-for-tat",
+      19.0
+    ]
+  ]
+}

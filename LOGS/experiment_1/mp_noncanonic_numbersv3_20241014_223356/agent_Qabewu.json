@@ -1,0 +1,21 @@
+{
+  "name": "Qabewu",
+  "strategy_name": "tit-for-tat",
+  "strategy": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+  "game_rules": "\n:- discontiguous player/1.\n:- discontiguous role/2.\n:- discontiguous control/1.\n:- discontiguous default_move/2.\n:- discontiguous payoff/4.\n:- discontiguous possible/3.\n:- discontiguous opposite_move/2.\n\n% Game specific predicates for the coffee shop vs. large coffee chain game\n\n% Payoff matrix for the coffee game\npayoff('latte', 'latte', 2, -2).\npayoff('cold_brew', 'cold_brew', 2, -2).\npayoff('latte', 'cold_brew', -3, 3).\npayoff('cold_brew', 'latte', -3, 3).\n\n% Initial state\ninitial(s0).\n\n% What holds initially: who is a player, their role, and whether they can play.\ninitially(player(local_coffee_shop), s0).\ninitially(player(large_coffee_chain), s0).\ninitially(role(local_coffee_shop, row), s0).\ninitially(role(large_coffee_chain, col), s0).\ninitially(control(local_coffee_shop), s0).\ninitially(control(large_coffee_chain), s0).\ninitially(default_move(_, 'latte'), s0).\n\n% What is possible for a player to choose\npossible(move(P, 'latte'), S) :- holds(player(P), S).\npossible(move(P, 'cold_brew'), S) :- holds(player(P), S).\n\n% Moves that are opposite to each other.\nopposite_move('latte', 'cold_brew').\nopposite_move('cold_brew', 'latte').\n",
+  "game_moves": [
+    "latte",
+    "cold_brew"
+  ],
+  "game_players": [
+    "local_coffee_shop",
+    "large_coffee_chain"
+  ],
+  "status": "syntactic_error",
+  "moves": [],
+  "payoffs": [],
+  "total_payoff": 0,
+  "default_move": "latte",
+  "trace_messages": [],
+  "attempts": 5
+}

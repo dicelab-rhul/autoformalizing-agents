@@ -1,0 +1,21 @@
+{
+  "name": "Xubuxo",
+  "strategy_name": "tit-for-tat",
+  "strategy": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+  "game_rules": "  \n:- discontiguous possible/3.\n:- discontiguous opposite_move/2.\n:- discontiguous initially/2.\n\n% Initial state\ninitial(s0).\n\n% What holds initially: who is a player, their role, and whether they can play.\ninitially(player(chef1), s0).\ninitially(player(chef2), s0).\ninitially(role(chef1, 'row'), s0).\ninitially(role(chef2, 'col'), s0).\ninitially(control(chef1), s0).\ninitially(control(chef2), s0).\ninitially(default_move(_, 'independent'), s0).\n\n% Payoff matrix for the cooking show competition\npayoff('collaborate', 'collaborate', 3, 3).\npayoff('collaborate', 'independent', 0, 2).\npayoff('independent', 'collaborate', 2, 0).\npayoff('independent', 'independent', 1, 1).\n\n% A legal move is a possible move where the player has control (is its turn).\nlegal(move(P, M), S) :- \n    possible(move(P, M), S), \n    holds(control(P), S).\n\n% What is possible for a player to choose\npossible(move(P, 'collaborate'), S) :- \n    holds(player(P), S).\npossible(move(P, 'independent'), S) :- \n    holds(player(P), S).\n\n% Moves that are opposite to each other.\nopposite_move('collaborate', 'independent').\nopposite_move('independent', 'collaborate').\n",
+  "game_moves": [
+    "collaborate",
+    "independent"
+  ],
+  "game_players": [
+    "chef1",
+    "chef2"
+  ],
+  "status": "syntactic_error",
+  "moves": [],
+  "payoffs": [],
+  "total_payoff": 0,
+  "default_move": "independent",
+  "trace_messages": [],
+  "attempts": 5
+}

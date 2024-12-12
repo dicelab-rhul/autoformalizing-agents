@@ -1,0 +1,39 @@
+{
+  "game_description": "Two siblings must divide their inherited property. Each can either agree to a fair split or demand a larger share. If both agree to a fair split, they each get an equal inheritance, resulting in 0 points. If one demands more and the other agrees to a fair split, the demanding sibling gains an extra share worth 3 points, and the agreeable sibling loses that amount, worth -3 points. If both demand more, they enter a legal battle, depleting the estate\u2019s value, resulting in each getting -5 points.",
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    -5,
+    -5,
+    -5,
+    -5,
+    -5
+  ],
+  "winners_payoffs": [
+    [
+      "Tevivu",
+      "tit-for-tat",
+      -5.0
+    ],
+    [
+      "Detenu",
+      "tit-for-tat",
+      -5.0
+    ],
+    [
+      "Naxegi",
+      "tit-for-tat",
+      -5.0
+    ],
+    [
+      "Cadace",
+      "tit-for-tat",
+      -5.0
+    ],
+    [
+      "Yadoxe",
+      "tit-for-tat",
+      -5.0
+    ]
+  ]
+}

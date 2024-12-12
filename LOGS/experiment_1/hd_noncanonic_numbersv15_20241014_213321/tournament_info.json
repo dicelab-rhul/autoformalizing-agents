@@ -1,0 +1,39 @@
+{
+  "game_description": "Two colleagues compete for a promotion. They can either collaborate or self-promote. If both collaborate, they show teamwork and are equally considered, scoring 0 points each. If one self-promotes while the other collaborates, the self-promoter gets the promotion worth 5 points, while the collaborator gets -5 points. If both self-promote, they undercut each other's credibility, and neither gets promoted, each suffering -3 points.",
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    -3,
+    -3,
+    -3,
+    -3,
+    -3
+  ],
+  "winners_payoffs": [
+    [
+      "Qakati",
+      "tit-for-tat",
+      -3.0
+    ],
+    [
+      "Xayiru",
+      "tit-for-tat",
+      -3.0
+    ],
+    [
+      "Kugugo",
+      "tit-for-tat",
+      -3.0
+    ],
+    [
+      "Zayeme",
+      "tit-for-tat",
+      -3.0
+    ],
+    [
+      "Xeguxe",
+      "tit-for-tat",
+      -3.0
+    ]
+  ]
+}

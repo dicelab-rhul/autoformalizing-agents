@@ -1,0 +1,39 @@
+{
+  "game_description": "Two political parties debate forming a coalition to push through crucial legislation. If both parties commit, they successfully pass impactful laws, leading to significant public approval worth 6 points each. If one commits while the other pursues its agenda, the committed party sees its efforts diluted, gaining nothing (0 points), and the non-committed party achieves moderate gains from their independent policies worth 3 points. If neither cooperates, each party struggles to pass minor laws, resulting in a small public approval gain of 2 points each.",
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    11,
+    11,
+    11,
+    11,
+    11
+  ],
+  "winners_payoffs": [
+    [
+      "Dateri",
+      "tit-for-tat",
+      11.0
+    ],
+    [
+      "Cicuba",
+      "tit-for-tat",
+      11.0
+    ],
+    [
+      "Yogoni",
+      "tit-for-tat",
+      11.0
+    ],
+    [
+      "Buvodi",
+      "tit-for-tat",
+      11.0
+    ],
+    [
+      "Jaxiqu",
+      "tit-for-tat",
+      11.0
+    ]
+  ]
+}

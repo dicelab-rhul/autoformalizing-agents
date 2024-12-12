@@ -1,0 +1,39 @@
+{
+  "game_description": "Two politicians from different parties are negotiating a bill. Each can either compromise to pass a bipartisan bill or stick to their party's principles. If both compromise, the bill passes with neutral partisan impact, each getting 0 points. If one holds firm and the other compromises, the firm politician gains party support and media praise worth 3 points, while the compromising politician loses favor, worth -3 points. If both hold firm, the bill stalls, causing public frustration and yielding each a payoff of \u20135 points.",
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    -5,
+    -5,
+    -5,
+    -5,
+    -5
+  ],
+  "winners_payoffs": [
+    [
+      "Cifoku",
+      "tit-for-tat",
+      -5.0
+    ],
+    [
+      "Xicugi",
+      "tit-for-tat",
+      -5.0
+    ],
+    [
+      "Licowu",
+      "tit-for-tat",
+      -5.0
+    ],
+    [
+      "Sefela",
+      "tit-for-tat",
+      -5.0
+    ],
+    [
+      "Liyoye",
+      "tit-for-tat",
+      -5.0
+    ]
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "game_description": "Two campaign managers are deciding on a strategy session location for their team. One manager prefers the \"Grand Conference Hall\" for its prestige, while the other prefers the \"Tech Innovation Center\" for its modern facilities. Both agree that a united appearance is essential. If they decide on the \"Grand Conference Hall,\" the hall advocate gets 2 points, and the tech center supporter gets 1 point. If they choose the \"Tech Innovation Center,\" the tech advocate gets 2 points, and the hall supporter gets 1 point. If they can't agree, they hold separate sessions and gain 0 points each.",
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    3,
+    3,
+    3,
+    3,
+    3
+  ],
+  "winners_payoffs": [
+    [
+      "Xosena",
+      "tit-for-tat",
+      3.0
+    ]
+  ]
+}

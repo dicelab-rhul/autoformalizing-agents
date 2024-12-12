@@ -1,0 +1,21 @@
+{
+  "name": "Wofiki",
+  "strategy_name": "tit-for-tat",
+  "strategy": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+  "game_rules": " \n:- discontiguous initially/2, payoff/4, possible/2, opposite_move/2.\n\n/* Game specific predicates for Mutual Defense Pact Game */\n\n% Payoff matrix for the game\npayoff('sign', 'sign', 4, 4).\npayoff('sign', 'not_sign', 0, 2).\npayoff('not_sign', 'sign', 2, 0).\npayoff('not_sign', 'not_sign', 1, 1).\n\n% Initial state\ninitial(s0).\n\n% What holds initially: who is a player, their role, and whether they can play\ninitially(player(nation1), s0).\ninitially(player(nation2), s0).\ninitially(role(nation1, role1), s0).\ninitially(role(nation2, role2), s0).\ninitially(control(nation1), s0).\ninitially(control(nation2), s0).\ninitially(default_move(_, 'not_sign'), s0).\n\n% What is possible for a player to choose\npossible(move(P, 'sign'), S):- holds(player(P), S).\npossible(move(P, 'not_sign'), S):- holds(player(P), S).\n\n% Moves that are opposite to each other.\nopposite_move('sign', 'not_sign').\nopposite_move('not_sign', 'sign').\n\n",
+  "game_moves": [
+    "sign",
+    "not_sign"
+  ],
+  "game_players": [
+    "nation1",
+    "nation2"
+  ],
+  "status": "syntactic_error",
+  "moves": [],
+  "payoffs": [],
+  "total_payoff": 0,
+  "default_move": "not_sign",
+  "trace_messages": [],
+  "attempts": 5
+}

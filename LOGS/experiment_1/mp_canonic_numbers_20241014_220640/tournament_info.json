@@ -1,0 +1,34 @@
+{
+  "game_description": "Two players each decide independently whether to choose heads or tails. If their choices match, one player wins 1 unit, and the other loses 1 unit, as it is a zero-sum game. If their choices differ, the other player wins 1 unit and the first player loses 1 unit. This scenario, known as Matching Pennies, represents a situation where each player's gain or loss is exactly balanced by the losses or gains of the other player.\n",
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "winners_payoffs": [
+    [
+      "Zazeyi",
+      "tit-for-tat",
+      0.0
+    ],
+    [
+      "Muhamu",
+      "tit-for-tat",
+      0.0
+    ],
+    [
+      "Mowuxi",
+      "tit-for-tat",
+      0.0
+    ],
+    [
+      "Xisiju",
+      "tit-for-tat",
+      0.0
+    ]
+  ]
+}

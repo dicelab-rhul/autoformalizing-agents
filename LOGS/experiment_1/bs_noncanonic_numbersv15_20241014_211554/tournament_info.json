@@ -1,0 +1,39 @@
+{
+  "game_description": "Two colleagues are choosing between attending a tech conference or a marketing summit. One is passionate about tech advancements, while the other focuses on marketing innovations. However, they value sharing the experience together over separate ventures. If they attend the tech conference, the tech enthusiast gets 2 points, and the marketing specialist gets 1 point. If they attend the marketing summit, the marketing expert gets 2 points, and the tech enthusiast gets 1 point. If they go to different conferences, they gain nothing, both earning 0 points.",
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    3,
+    3,
+    3,
+    3,
+    3
+  ],
+  "winners_payoffs": [
+    [
+      "Residu",
+      "tit-for-tat",
+      3.0
+    ],
+    [
+      "Cuhiya",
+      "tit-for-tat",
+      3.0
+    ],
+    [
+      "Duhuro",
+      "tit-for-tat",
+      3.0
+    ],
+    [
+      "Decaho",
+      "tit-for-tat",
+      3.0
+    ],
+    [
+      "Pocelu",
+      "tit-for-tat",
+      3.0
+    ]
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "game_description": null,
+  "num_agents": 6,
+  "num_rounds": 10,
+  "target_payoffs": [],
+  "winners_payoffs": [
+    [
+      "Xusamo",
+      "anti-default-move",
+      420.0
+    ]
+  ]
+}
