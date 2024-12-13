@@ -1,6 +1,6 @@
 # 🏆 Game-Theoretic Tournaments with Autoformalizing Agents
 
-A Python and Prolog-based tournament simulator that enables users to create, simulate, and analyze game-theoretic tournaments using autoformalizing agents. The project supports game-theoric experiments and includes tools for validating autoformalized Prolog programs. Currently, it supports 2x2 simultaneous-move games, but its modular architecture allows for extensions to other types of games. The framework and its evaluation are described in more detail in this paper (coming soon). 
+A Python and Prolog-based tournament simulator that enables users to create, simulate, and analyze game-theoretic tournaments using autoformalizing agents. The project supports game-theoric experiments and includes tools for validating autoformalized Prolog programs. Currently, it supports 2x2 simultaneous-move games, but its modular architecture allows for extensions to other types of games. The framework and its evaluation are described in more detail in this [paper](https://arxiv.org/abs/2412.08805). 
 
 ## 📑 Table of Contents
 
@@ -135,5 +135,16 @@ Kostas Stathis </br>
 Vince Trencsenyi
 
 ## Citing This Work
+
+```bibtex
+@article{mensfelt24agents,
+    author={Agnieszka Mensfelt and Kostas Stathis and Vince Tencsenyi},
+    title={Autoformalizing and Simulating Game-Theoretic Scenarios using LLM-augmented Agents},
+    year={2024},
+    journal={arXiv preprint arXiv:2412.08805},
+    url={https://arxiv.org/abs/2412.08805} 
+    year={2024}
+}
+```
 
 Coming soon.
