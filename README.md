@@ -146,5 +146,3 @@ Vince Trencsenyi
     year={2024}
 }
 ```
-
-Coming soon.
