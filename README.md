@@ -142,7 +142,7 @@ Vince Trencsenyi
     title={Autoformalizing and Simulating Game-Theoretic Scenarios using LLM-augmented Agents},
     year={2024},
     journal={arXiv preprint arXiv:2412.08805},
-    url={https://arxiv.org/abs/2412.08805} 
+    url={https://arxiv.org/abs/2412.08805}, 
     year={2024}
 }
 ```
